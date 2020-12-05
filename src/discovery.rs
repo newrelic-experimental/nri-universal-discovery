@@ -1,6 +1,6 @@
 use serde_json::{Map, Value};
 
-use super::{processor, request, Opts};
+use super::{decorator, processor, request, Opts};
 
 macro_rules! crate_version {
     () => {
@@ -15,7 +15,7 @@ macro_rules! crate_name {
 }
 #[derive(Debug)]
 pub struct DiscoveryItem {
-    variables: Map<String, Value>,
+    pub variables: Map<String, Value>,
 }
 
 pub async fn start(opts: Opts) {
@@ -23,20 +23,22 @@ pub async fn start(opts: Opts) {
 
     let (opts, mode) = determine_mode(opts);
 
-    let discovery_items = match mode.as_str() {
+    let raw_discovery_items = match mode.as_str() {
         "nrql" => {
-            let nerdgraph_data = request::nrql(opts).await;
-            processor::handle_nerdgraph_payloads(nerdgraph_data, "nrql")
+            let nerdgraph_data = request::nrql(&opts).await;
+            processor::handle_nerdgraph_payloads(nerdgraph_data)
         }
         "entity" => {
-            let nerdgraph_data = request::entity(opts).await;
-            processor::handle_nerdgraph_payloads(nerdgraph_data, "entity")
+            let nerdgraph_data = request::entity(&opts).await;
+            processor::handle_nerdgraph_payloads(nerdgraph_data)
         }
         _ => {
-            let empty: Vec<DiscoveryItem> = vec![];
+            let empty: Vec<Map<String, Value>> = vec![];
             empty
         }
     };
+
+    let discovery_items = decorator::decorate_discovery_items(raw_discovery_items, &opts);
 
     println!("{:?}", discovery_items);
 }

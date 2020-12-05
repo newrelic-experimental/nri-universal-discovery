@@ -1,3 +1,4 @@
+mod decorator;
 mod discovery;
 mod processor;
 mod request;
@@ -39,10 +40,9 @@ pub struct Opts {
         default_value = "https://api.newrelic.com/graphql"
     )]
     nerdgraph_url: String,
-
-    // /// Decorate
-    // #[clap(short = 'd', env = "NR_DECORATOR_FILE")]
-    // decorator_file: Option<String>,
+    /// Decorate
+    #[clap(short = 'd', env = "NR_DECORATOR_FILE")]
+    decorator_file: Option<String>,
     /// Verbose logging
     #[clap(short, env = "VERBOSE")]
     verbose: bool,

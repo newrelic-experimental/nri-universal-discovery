@@ -9,44 +9,44 @@ use async_recursion::async_recursion;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NerdgraphPayload {
-    data: Option<Data>,
-    errors: Option<Value>,
+    pub data: Option<Data>,
+    pub errors: Option<Value>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Data {
-    actor: Actor,
+    pub actor: Actor,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Actor {
-    account: Option<Account>,
+pub struct Actor {
+    pub account: Option<Account>,
     #[serde(rename = "entitySearch")]
-    entity_search: Option<EntitySearch>,
+    pub entity_search: Option<EntitySearch>,
 }
 #[derive(Serialize, Deserialize, Debug)]
-struct Account {
-    nrql: Option<Nrql>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Nrql {
-    results: Vec<Value>,
+pub struct Account {
+    pub nrql: Option<Nrql>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct EntitySearch {
-    results: Option<Results>,
+pub struct Nrql {
+    pub results: Vec<Value>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Results {
-    entities: Vec<Value>,
+pub struct EntitySearch {
+    pub results: Option<Results>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Results {
+    pub entities: Vec<Value>,
     #[serde(rename = "nextCursor")]
-    next_cursor: Option<String>,
+    pub next_cursor: Option<String>,
 }
 
-pub async fn nrql(opts: Opts) -> Vec<NerdgraphPayload> {
+pub async fn nrql(opts: &Opts) -> Vec<NerdgraphPayload> {
     let account_id = match &opts.account_id {
         Some(v) => v.as_str(),
         _ => "",
@@ -72,20 +72,23 @@ pub async fn nrql(opts: Opts) -> Vec<NerdgraphPayload> {
     return nerdgraph_payloads;
 }
 
-pub async fn entity(opts: Opts) -> Vec<NerdgraphPayload> {
+pub async fn entity(opts: &Opts) -> Vec<NerdgraphPayload> {
     let mut nerdgraph_payloads: Vec<NerdgraphPayload> = Vec::new();
     let cursor = String::from("");
 
-    nerdgraph_payloads = recursive_entity_query(opts, cursor, nerdgraph_payloads).await;
+    nerdgraph_payloads = recursive_entity_query(&opts, cursor, nerdgraph_payloads).await;
 
-    println!("{:?}", nerdgraph_payloads.len());
+    debug!(
+        "entity search request count: {:?}",
+        nerdgraph_payloads.len()
+    );
 
     return nerdgraph_payloads;
 }
 
 #[async_recursion]
 async fn recursive_entity_query(
-    opts: Opts,
+    opts: &Opts,
     cursor: String,
     mut nerdgraph_payloads: Vec<NerdgraphPayload>,
 ) -> Vec<NerdgraphPayload> {
