@@ -1,6 +1,6 @@
-use serde_json::{Map, Value};
-
 use super::{decorator, processor, request, Opts};
+use serde::{Deserialize, Serialize};
+use serde_json::{Map, Result, Value};
 
 macro_rules! crate_version {
     () => {
@@ -13,7 +13,7 @@ macro_rules! crate_name {
         env!("CARGO_PKG_NAME")
     };
 }
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct DiscoveryItem {
     pub variables: Map<String, Value>,
 }
@@ -40,7 +40,8 @@ pub async fn start(opts: Opts) {
 
     let discovery_items = decorator::decorate_discovery_items(raw_discovery_items, &opts);
 
-    println!("{:?}", discovery_items);
+    let json = serde_json::to_string(&discovery_items).expect("json conversion failed");
+    println!("{}", json);
 }
 
 // determine_mode determines if we will perform a nrql or entity search query
