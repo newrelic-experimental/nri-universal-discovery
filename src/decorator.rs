@@ -1,8 +1,14 @@
-use super::{discovery, Opts};
+use super::{discovery, utils, Opts};
 use discovery::DiscoveryItem;
+use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
-use std::fs;
-extern crate base64;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct DecoratorItem {
+    pub overwrite: Option<bool>,
+    pub variables: Map<String, Value>,
+    pub sensitive: Map<String, Value>,
+}
 
 pub fn decorate_discovery_items(
     raw_discovery_items: Vec<Map<String, Value>>,
@@ -10,16 +16,17 @@ pub fn decorate_discovery_items(
 ) -> Vec<DiscoveryItem> {
     let mut discovery_items: Vec<DiscoveryItem> = vec![];
 
-    let contents = match &opts.decorator_file {
-        Some(decorator_file) => match fs::read_to_string(decorator_file) {
-            Err(e) => {
-                warn!("{} read failed error: {}.", decorator_file, e);
-                String::from("")
-            }
-            Ok(result) => result,
-        },
-        _ => String::from(""),
+    let decorator_file = &opts.decorator_file.to_owned().unwrap_or(String::from(""));
+    let decorator_contents = if &decorator_file.to_string() != "" {
+        utils::read_file(decorator_file)
+    } else {
+        debug!("decorator file not in use");
+        String::from("")
     };
+
+    if decorator_contents != "" {
+        debug!("attempting decorations");
+    }
 
     for raw_item in raw_discovery_items {
         let item = DiscoveryItem {

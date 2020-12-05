@@ -1,0 +1,22 @@
+[
+  {
+    "variables":{
+      "hello": "world",
+      "vmName": "123"
+    },
+    "sensitive":{
+      "user": "kav",
+      "pass": "n3wr3l1c"
+    }
+  },
+  {
+    "variables":{
+      "greeting": "hello",
+      "vmName": "345"
+    },
+    "sensitive":{
+      "user": "max",
+      "pass": "5urf"
+    }
+  }
+]

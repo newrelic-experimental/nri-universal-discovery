@@ -2,6 +2,7 @@ mod decorator;
 mod discovery;
 mod processor;
 mod request;
+mod utils;
 #[macro_use]
 extern crate log;
 
