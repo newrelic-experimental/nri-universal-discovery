@@ -36,6 +36,8 @@ pub fn decorate_discovery_items(
             for decoration in &decorations {
                 match &decoration.matches {
                     Some(matches) => {
+                        let mut found_matches: usize = 0;
+
                         for key in matches.keys() {
                             match raw_item.get(key) {
                                 Some(item_value) => {
@@ -45,21 +47,24 @@ pub fn decorate_discovery_items(
                                         .expect(&format!("bad regex: {}", the_regex));
 
                                     if re.is_match(item_value.as_str().unwrap()) {
-                                        for vars in &decoration.variables {
-                                            for var in vars.keys() {
-                                                // do not override existing keys
-                                                if !raw_item.contains_key(var) {
-                                                    let decoration_value =
-                                                        vars.get(var).unwrap().to_owned();
-
-                                                    raw_item
-                                                        .insert(var.to_string(), decoration_value);
-                                                }
-                                            }
-                                        }
+                                        found_matches += 1;
                                     }
                                 }
                                 _ => {}
+                            }
+                        }
+
+                        // ensure all matches are found before applying
+                        if matches.len() == found_matches {
+                            for vars in &decoration.variables {
+                                for var in vars.keys() {
+                                    // do not override existing keys
+                                    if !raw_item.contains_key(var) {
+                                        let decoration_value = vars.get(var).unwrap().to_owned();
+
+                                        raw_item.insert(var.to_string(), decoration_value);
+                                    }
+                                }
                             }
                         }
                     }

@@ -1,7 +1,7 @@
 [
   {
     "matches":{
-      "vmName":"ubuntu\\S+",
+      "tags.accountId":"\\S+",
       "name":"ubuntu\\S+"
     },
     "variables":{
