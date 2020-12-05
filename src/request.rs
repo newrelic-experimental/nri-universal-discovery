@@ -46,7 +46,7 @@ struct Results {
     next_cursor: Option<String>,
 }
 
-pub async fn nrql(opts: Opts) -> NerdgraphPayload {
+pub async fn nrql(opts: Opts) -> Vec<NerdgraphPayload> {
     let account_id = match &opts.account_id {
         Some(v) => v.as_str(),
         _ => "",
@@ -65,7 +65,11 @@ pub async fn nrql(opts: Opts) -> NerdgraphPayload {
             nerdgraph_json
         ));
 
-    return nerdgraph_data;
+    // return as vector to simplify
+    let mut nerdgraph_payloads: Vec<NerdgraphPayload> = Vec::new();
+    nerdgraph_payloads.push(nerdgraph_data);
+
+    return nerdgraph_payloads;
 }
 
 pub async fn entity(opts: Opts) -> Vec<NerdgraphPayload> {

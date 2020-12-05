@@ -1,4 +1,6 @@
-use super::{handler, request, Opts};
+use serde_json::{Map, Value};
+
+use super::{processor, request, Opts};
 
 macro_rules! crate_version {
     () => {
@@ -11,26 +13,32 @@ macro_rules! crate_name {
         env!("CARGO_PKG_NAME")
     };
 }
+#[derive(Debug)]
+pub struct DiscoveryItem {
+    variables: Map<String, Value>,
+}
 
 pub async fn start(opts: Opts) {
     info!("starting {} v:{}", crate_name!(), crate_version!());
 
     let (opts, mode) = determine_mode(opts);
 
-    match mode.as_str() {
+    let discovery_items = match mode.as_str() {
         "nrql" => {
             let nerdgraph_data = request::nrql(opts).await;
-            println!("{:?}", nerdgraph_data);
-            // handler::nrql(json);
+            processor::handle_nerdgraph_payloads(nerdgraph_data, "nrql")
         }
         "entity" => {
             let nerdgraph_data = request::entity(opts).await;
-            // println!("{:?}", nerdgraph_data);
+            processor::handle_nerdgraph_payloads(nerdgraph_data, "entity")
         }
-        _ => panic!("unknown mode"),
-    }
+        _ => {
+            let empty: Vec<DiscoveryItem> = vec![];
+            empty
+        }
+    };
 
-    println!("{}", mode);
+    println!("{:?}", discovery_items);
 }
 
 // determine_mode determines if we will perform a nrql or entity search query

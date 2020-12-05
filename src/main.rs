@@ -1,5 +1,5 @@
 mod discovery;
-mod handler;
+mod processor;
 mod request;
 #[macro_use]
 extern crate log;
