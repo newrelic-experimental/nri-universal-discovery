@@ -39,7 +39,10 @@ fn process_discovery_values(discovery_values: Vec<Value>) -> Vec<Map<String, Val
                                             tag_obj.get("values").unwrap().as_array().unwrap();
 
                                         for value in values {
-                                            new_object.insert(key.to_string(), value.to_owned());
+                                            new_object.insert(
+                                                format!("tags.{}", key.to_string()),
+                                                value.to_owned(),
+                                            );
                                             new_object.remove("tags");
                                             break;
                                         }

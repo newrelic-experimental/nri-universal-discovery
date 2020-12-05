@@ -553,6 +553,7 @@ dependencies = [
  "hyper",
  "hyper-rustls",
  "log",
+ "regex",
  "serde",
  "serde_json",
  "tokio",

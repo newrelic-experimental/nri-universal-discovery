@@ -1,20 +1,23 @@
 [
   {
+    "matches":{
+      "vmName":"ubuntu\\S+",
+      "name":"ubuntu\\S+"
+    },
     "variables":{
       "hello": "world",
-      "vmName": "123"
-    },
-    "sensitive":{
+      "something": "123",
       "user": "kav",
       "pass": "n3wr3l1c"
     }
   },
   {
+    "matches":{
+      "vmName":"123"
+    },
     "variables":{
       "greeting": "hello",
-      "vmName": "345"
-    },
-    "sensitive":{
+      "another": "345",
       "user": "max",
       "pass": "5urf"
     }

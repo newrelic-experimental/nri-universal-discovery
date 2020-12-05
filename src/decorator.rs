@@ -1,17 +1,18 @@
 use super::{discovery, utils, Opts};
 use discovery::DiscoveryItem;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DecoratorItem {
     pub overwrite: Option<bool>,
-    pub variables: Map<String, Value>,
-    pub sensitive: Map<String, Value>,
+    pub matches: Option<Map<String, Value>>,
+    pub variables: Option<Map<String, Value>>,
 }
 
 pub fn decorate_discovery_items(
-    raw_discovery_items: Vec<Map<String, Value>>,
+    raw_items: Vec<Map<String, Value>>,
     opts: &Opts,
 ) -> Vec<DiscoveryItem> {
     let mut discovery_items: Vec<DiscoveryItem> = vec![];
@@ -25,14 +26,60 @@ pub fn decorate_discovery_items(
     };
 
     if decorator_contents != "" {
-        debug!("attempting decorations");
-    }
+        debug!("processing decorations");
 
-    for raw_item in raw_discovery_items {
-        let item = DiscoveryItem {
-            variables: raw_item,
-        };
-        discovery_items.push(item);
+        let decorations: Vec<DecoratorItem> = serde_json::from_str(&decorator_contents).expect(
+            &format!("unable to deserialize decorations file: {}", decorator_file),
+        );
+
+        for mut raw_item in raw_items {
+            for decoration in &decorations {
+                match &decoration.matches {
+                    Some(matches) => {
+                        for key in matches.keys() {
+                            match raw_item.get(key) {
+                                Some(item_value) => {
+                                    let the_regex = matches.get(key).expect("regex undefined");
+
+                                    let re = Regex::new(the_regex.as_str().unwrap())
+                                        .expect(&format!("bad regex: {}", the_regex));
+
+                                    if re.is_match(item_value.as_str().unwrap()) {
+                                        for vars in &decoration.variables {
+                                            for var in vars.keys() {
+                                                // do not override existing keys
+                                                if !raw_item.contains_key(var) {
+                                                    let decoration_value =
+                                                        vars.get(var).unwrap().to_owned();
+
+                                                    raw_item
+                                                        .insert(var.to_string(), decoration_value);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                    _ => error!("no matches defined"),
+                }
+            }
+
+            let item = DiscoveryItem {
+                variables: raw_item,
+            };
+
+            discovery_items.push(item);
+        }
+    } else {
+        for raw_item in raw_items {
+            let item = DiscoveryItem {
+                variables: raw_item,
+            };
+            discovery_items.push(item);
+        }
     }
 
     return discovery_items;

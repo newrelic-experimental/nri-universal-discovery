@@ -41,6 +41,7 @@ pub async fn start(opts: Opts) {
     let discovery_items = decorator::decorate_discovery_items(raw_discovery_items, &opts);
 
     let json = serde_json::to_string(&discovery_items).expect("json conversion failed");
+
     println!("{}", json);
 }
 
