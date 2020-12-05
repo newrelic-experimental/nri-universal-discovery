@@ -2,7 +2,13 @@ use super::{discovery, utils, Opts};
 use discovery::DiscoveryItem;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use serde_json::{Map, Value};
+use serde_json::{json, Map, Value};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct DecorationsFile {
+    defaults: Map<String, Value>,
+    decorations: Vec<DecoratorItem>,
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DecoratorItem {
@@ -28,9 +34,11 @@ pub fn decorate_discovery_items(
     if decorator_contents != "" {
         debug!("processing decorations");
 
-        let decorations: Vec<DecoratorItem> = serde_json::from_str(&decorator_contents).expect(
+        let decorations_file: DecorationsFile = serde_json::from_str(&decorator_contents).expect(
             &format!("unable to deserialize decorations file: {}", decorator_file),
         );
+
+        let decorations = decorations_file.decorations;
 
         for mut raw_item in raw_items {
             for decoration in &decorations {
@@ -60,10 +68,19 @@ pub fn decorate_discovery_items(
                                 for var in vars.keys() {
                                     // do not override existing keys
                                     if !raw_item.contains_key(var) {
-                                        let decoration_value = vars.get(var).unwrap().to_owned();
+                                        let decoration_value =
+                                            vars.get(var).unwrap_or(&json!("")).to_owned();
 
                                         raw_item.insert(var.to_string(), decoration_value);
                                     }
+                                }
+                            }
+                        } else {
+                            for key in decorations_file.defaults.keys() {
+                                if !raw_item.contains_key(key) {
+                                    let decoration_value =
+                                        decorations_file.defaults.get(key).unwrap().to_owned();
+                                    raw_item.insert(key.to_string(), decoration_value);
                                 }
                             }
                         }

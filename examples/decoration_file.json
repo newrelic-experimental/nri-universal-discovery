@@ -1,25 +1,19 @@
-[
-  {
-    "matches":{
-      "tags.accountId":"\\S+",
-      "name":"ubuntu\\S+"
-    },
-    "variables":{
-      "hello": "world",
-      "something": "123",
-      "user": "kav",
-      "pass": "n3wr3l1c"
-    }
+{
+  "defaults":{
+    "guestUser": "123",
+    "guestPass": "abc"
   },
-  {
-    "matches":{
-      "vmName":"123"
-    },
-    "variables":{
-      "greeting": "hello",
-      "another": "345",
-      "user": "max",
-      "pass": "5urf"
+  "decorations": [
+    {
+      "matches":{
+        "vmName":"ubuntu\\S+"
+      },
+      "variables":{
+        "hello": "world",
+        "something": "123",
+        "guestUser": "root",
+        "guestPass": "n1mbu5!"
+      }
     }
-  }
-]
+  ]
+}

@@ -18,12 +18,14 @@ build:
 
 build-linux:
 		@echo "===================================================================="
-		@echo "Building linux release..."
+		@echo "Building windows release..."
 		@echo "===================================================================="
 		cargo build --release --target=x86_64-pc-windows-gnu
 
 build-windows:
 		@echo "===================================================================="
-		@echo "Building windows release..."
+		@echo "Building linux release..."
 		@echo "===================================================================="
 		cargo build --release --target=x86_64-unknown-linux-musl
+
+build-all: build-linux build-windows
