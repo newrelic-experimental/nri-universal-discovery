@@ -75,13 +75,15 @@ pub fn decorate_discovery_items(
                                     }
                                 }
                             }
-                        } else {
-                            for key in decorations_file.defaults.keys() {
-                                if !raw_item.contains_key(key) {
-                                    let decoration_value =
-                                        decorations_file.defaults.get(key).unwrap().to_owned();
-                                    raw_item.insert(key.to_string(), decoration_value);
-                                }
+                        }
+
+                        // apply default attributes
+                        for key in decorations_file.defaults.keys() {
+                            // do not override existing keys
+                            if !raw_item.contains_key(key) {
+                                let decoration_value =
+                                    decorations_file.defaults.get(key).unwrap().to_owned();
+                                raw_item.insert(key.to_string(), decoration_value);
                             }
                         }
                     }
