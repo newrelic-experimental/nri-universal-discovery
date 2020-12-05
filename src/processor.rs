@@ -1,4 +1,4 @@
-use super::{discovery, request, Opts};
+use super::request;
 use request::NerdgraphPayload;
 use serde_json::{Map, Value};
 extern crate base64;

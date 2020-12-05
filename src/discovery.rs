@@ -1,6 +1,6 @@
 use super::{decorator, processor, request, Opts};
 use serde::{Deserialize, Serialize};
-use serde_json::{Map, Result, Value};
+use serde_json::{Map, Value};
 
 macro_rules! crate_version {
     () => {
