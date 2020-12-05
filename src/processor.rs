@@ -1,4 +1,6 @@
-use super::request;
+use crate::Opts;
+
+use super::{request, utils};
 use request::NerdgraphPayload;
 use serde_json::{Map, Value};
 extern crate base64;
@@ -10,6 +12,12 @@ pub fn handle_nerdgraph_payloads(
     let raw_discovery_items = process_discovery_values(discovery_values);
 
     return raw_discovery_items;
+}
+
+pub fn handle_file(opts: &Opts) -> Vec<Map<String, Value>> {
+    let discovery_file = opts.discovery_file.to_owned().expect("file undefined");
+    let file = utils::read_file(&discovery_file);
+    serde_json::from_str(&file).expect(&format!("unable to deserialize decorations file: {}", file))
 }
 
 fn process_discovery_values(discovery_values: Vec<Value>) -> Vec<Map<String, Value>> {

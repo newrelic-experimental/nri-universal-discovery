@@ -52,7 +52,8 @@ pub async fn nrql(opts: &Opts) -> Vec<NerdgraphPayload> {
 
     let query = format!(
         r#"{{"query":"{{\n  actor {{\n    account(id: {}) {{\n      nrql(query: \"{}\") {{\n        results\n      }}\n    }}\n  }}\n}}\n"}}"#,
-        account_id, &opts.query
+        account_id,
+        &opts.query.to_owned().unwrap()
     );
 
     let nerdgraph_json = fetch_data(&opts, &query).await;
@@ -90,7 +91,7 @@ async fn recursive_entity_query(
     cursor: String,
     mut nerdgraph_payloads: Vec<NerdgraphPayload>,
 ) -> Vec<NerdgraphPayload> {
-    let query = build_search_query(&opts.query, cursor);
+    let query = build_search_query(&opts.query.to_owned().unwrap(), cursor);
 
     let nerdgraph_json = fetch_data(&opts, &query).await;
     let nerdgraph_data: NerdgraphPayload =
@@ -193,7 +194,7 @@ async fn fetch_data(opts: &Opts, query: &String) -> String {
     let req = Request::builder()
         .method(Method::POST)
         .uri(&opts.nerdgraph_url)
-        .header("API-Key", &opts.api_key)
+        .header("API-Key", &opts.api_key.to_owned().unwrap())
         .header("content-type", "application/json")
         .body(Body::from(query.to_string()))
         .unwrap();

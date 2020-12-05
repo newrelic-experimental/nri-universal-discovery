@@ -25,13 +25,17 @@ pub async fn start(opts: Opts) {
 
     let raw_discovery_items = match mode.as_str() {
         "nrql" => {
+            opts.account_id.to_owned().expect("account id not defined");
+            opts.api_key.to_owned().expect("api key not defined");
             let nerdgraph_data = request::nrql(&opts).await;
             processor::handle_nerdgraph_payloads(nerdgraph_data)
         }
         "entity" => {
+            opts.api_key.to_owned().expect("api key not defined");
             let nerdgraph_data = request::entity(&opts).await;
             processor::handle_nerdgraph_payloads(nerdgraph_data)
         }
+        "file" => processor::handle_file(&opts),
         _ => {
             let empty: Vec<Map<String, Value>> = vec![];
             empty
@@ -59,7 +63,7 @@ fn determine_mode(opts: Opts) -> (Opts, String) {
             panic!("invalid query mode {}", mode);
         }
         None => {
-            let query_lower = &opts.query;
+            let query_lower = &opts.query.to_owned().unwrap_or(String::from(""));
             if query_lower.contains("SELECT ") {
                 return (opts, String::from("nrql"));
             }

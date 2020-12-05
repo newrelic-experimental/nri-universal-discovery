@@ -24,10 +24,10 @@ pub struct Opts {
     account_id: Option<String>,
     /// New Relic One API Key
     #[clap(short = 'k', env = "NR_API_KEY")]
-    api_key: String,
+    api_key: Option<String>,
     /// Query
     #[clap(short = 'q', env = "NR_QUERY")]
-    query: String,
+    query: Option<String>,
     /// Query mode NRQL or NerdGraph
     #[clap(short = 'm', env = "NR_MODE")]
     mode: Option<String>,

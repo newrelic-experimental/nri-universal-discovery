@@ -1,0 +1,11 @@
+[
+  {
+    "name":"abc-host",
+    "attr1":"joker"
+  },
+  {
+    "name":"ubuntu-newrelic",
+    "attr1":"batman",
+    "tags.accountId":"fake"
+  }
+]
