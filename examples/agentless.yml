@@ -1,0 +1,28 @@
+---
+discovery:
+  ttl: 1m
+  command:
+    exec: /root/nri-universal-discovery
+    env:
+      NR_ACCOUNT_ID: "2676709"
+      NR_API_KEY: "NRAK-XXXXXX"
+      NR_QUERY: "SELECT \
+        latest(datacenterName) as 'dcName', \
+        latest(vmConfigName) as 'vmName', \
+        latest(vmHostname) as 'vmHostname' \
+        FROM VSphereVmSample FACET entityName"
+      NR_DECORATOR_FILE: "/root/decorations.json"
+    match:
+      vmName: /ubuntu-new\S+/
+integrations:
+  - name: nri-flex
+    env:
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/remote-netstat.yml
+      COLLECTOR_HOSTNAME: ${discovery.collectorHostname}
+      VMNAME: ${discovery.vmName}
+      REMOTE_CMD: "set +H && \
+        govc guest.run -k \
+        -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \
+        -dc \"${discovery.dcName}\" \
+        -k -vm \"${discovery.vmName}\" \
+        -l \"${discovery.guestUser}:${discovery.guestPass}\""

@@ -1,0 +1,26 @@
+---
+name: RemoteNetstat
+custom_attributes:
+  vmName: $$VMNAME
+  collectorHostname: $$COLLECTOR_HOSTNAME
+apis:
+  - name: NetstatConnection
+    commands:
+      - run: $$REMOTE_CMD "netstat -atpe -W --numeric-ports --numeric-hosts" # TCP samples
+        timeout: 59000
+        split: horizontal
+        regex_match: true
+        # the below regex works on linux | does not work on mac
+        split_by: (\S+)\s+(\d+)\s+(\d+)\s+(\S+):(\S+)\s+(\S+):(\S+)\s+(\S+)\s+(\S+)\s+(\d+)\s+(\d+|-)
+        set_header:
+          - protocol
+          - recvQBytes
+          - sendQBytes
+          - localAddress
+          - localAddressPort
+          - foreignAddress
+          - foreignAddressPort
+          - state
+          - user
+          - inode
+          - pid
