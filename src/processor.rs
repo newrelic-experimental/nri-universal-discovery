@@ -2,7 +2,7 @@ use crate::Opts;
 
 use super::{request, utils};
 use request::NerdgraphPayload;
-use serde_json::{Map, Value};
+use serde_json::{json, Map, Value};
 extern crate base64;
 
 pub fn handle_nerdgraph_payloads(
@@ -22,14 +22,17 @@ pub fn handle_file(opts: &Opts) -> Vec<Map<String, Value>> {
 
 fn process_discovery_values(discovery_values: Vec<Value>) -> Vec<Map<String, Value>> {
     let mut values: Vec<Map<String, Value>> = vec![];
+    let hostname = hostname::get().unwrap();
 
     for value in discovery_values.into_iter() {
         let mut new_object: Map<String, Value> = Map::new();
+        new_object.insert("collectorHostname".to_string(), json!(hostname.to_str()));
 
         match value.as_object() {
             Some(object) => {
                 for key in object.keys() {
                     let value = object.get(key).unwrap();
+                    // unpack payload into flat map, do not include arrays, objects or nulls
                     if !value.is_object() && !value.is_array() && !value.is_null() {
                         new_object.insert(key.to_string(), value.to_owned());
                     }

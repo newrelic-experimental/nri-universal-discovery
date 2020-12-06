@@ -1,17 +1,19 @@
 {
   "defaults":{
     "guestUser": "123",
-    "guestPass": "abc"
+    "guestPass": "abc",
+    "dcUser": "administrator@vsphere.local",
+    "dcPass":"N1mbu55!"
   },
   "decorations": [
     {
       "matches":{
-        "vmName":"ubuntu\\S+"
+        "vmName":"ubuntu-new\\S+"
       },
       "variables":{
         "hello": "world",
         "something": "123",
-        "guestUser": "root",
+        "guestUser": "kav",
         "guestPass": "n1mbu5!"
       }
     }
