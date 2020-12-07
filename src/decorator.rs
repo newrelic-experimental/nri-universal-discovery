@@ -3,6 +3,7 @@ use discovery::DiscoveryItem;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Map, Value};
+extern crate sys_info;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DecorationsFile {
@@ -110,7 +111,16 @@ pub fn decorate_discovery_items(
 }
 
 fn apply_collector_attributes(mut raw_item: Map<String, Value>) -> Map<String, Value> {
-    let hostname = hostname::get().unwrap();
-    raw_item.insert("collectorHostname".to_string(), json!(hostname.to_str()));
+    let hostname = sys_info::hostname().unwrap();
+    let os_release = sys_info::os_release().unwrap();
+    let os_type = sys_info::os_type().unwrap();
+
+    raw_item.insert("collectorHostname".to_string(), json!(hostname));
+    raw_item.insert(
+        "collectorOperatingSystemRelease".to_string(),
+        json!(os_release),
+    );
+    raw_item.insert("collectorOperatingSystem".to_string(), json!(os_type));
+
     return raw_item;
 }
