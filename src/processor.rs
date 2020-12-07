@@ -2,8 +2,15 @@ use crate::Opts;
 
 use super::{request, utils};
 use request::NerdgraphPayload;
+use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 extern crate base64;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct DiscoveryFile {
+    defaults: Map<String, Value>,
+    discovery_items: Vec<Map<String, Value>>,
+}
 
 pub fn handle_nerdgraph_payloads(
     nerdgraph_payloads: Vec<request::NerdgraphPayload>,
@@ -15,9 +22,33 @@ pub fn handle_nerdgraph_payloads(
 }
 
 pub fn handle_file(opts: &Opts) -> Vec<Map<String, Value>> {
-    let discovery_file = opts.discovery_file.to_owned().expect("file undefined");
-    let file = utils::read_file(&discovery_file);
-    serde_json::from_str(&file).expect(&format!("unable to deserialize decorations file: {}", file))
+    let file = opts.discovery_file.to_owned().expect("file undefined");
+    let file = utils::read_file(&file);
+    let discovery_file: DiscoveryFile = serde_json::from_str(&file)
+        .expect(&format!("unable to deserialize discovery file: {}", file));
+
+    let mut new_values: Vec<Map<String, Value>> = vec![];
+
+    for raw_item in discovery_file.discovery_items {
+        let mut new_object: Map<String, Value> = raw_item;
+
+        // if default key does not exist in existing item
+        // inject the default value
+        for default_key in discovery_file.defaults.keys() {
+            match new_object.get(default_key) {
+                Some(_) => {}
+                _ => {
+                    let value = discovery_file.defaults.get(default_key).unwrap();
+                    new_object.insert(default_key.to_owned(), value.to_owned());
+                    ()
+                }
+            }
+        }
+
+        new_values.push(new_object);
+    }
+
+    return new_values;
 }
 
 fn process_discovery_values(discovery_values: Vec<Value>) -> Vec<Map<String, Value>> {
