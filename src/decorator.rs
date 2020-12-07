@@ -92,7 +92,7 @@ pub fn decorate_discovery_items(
             }
 
             let item = DiscoveryItem {
-                variables: raw_item,
+                variables: apply_collector_attributes(raw_item),
             };
 
             discovery_items.push(item);
@@ -100,11 +100,17 @@ pub fn decorate_discovery_items(
     } else {
         for raw_item in raw_items {
             let item = DiscoveryItem {
-                variables: raw_item,
+                variables: apply_collector_attributes(raw_item),
             };
             discovery_items.push(item);
         }
     }
 
     return discovery_items;
+}
+
+fn apply_collector_attributes(mut raw_item: Map<String, Value>) -> Map<String, Value> {
+    let hostname = hostname::get().unwrap();
+    raw_item.insert("collectorHostname".to_string(), json!(hostname.to_str()));
+    return raw_item;
 }
