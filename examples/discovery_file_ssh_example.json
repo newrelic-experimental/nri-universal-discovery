@@ -1,0 +1,13 @@
+{
+  "defaults": {
+    "user": "ec2-user",
+    "key": "~/.ssh/kav-dt-test.pem"
+  },
+  "discovery_items": [
+    {
+      "name": "test-ec2",
+      "host": "13.239.27.159",
+      "team": "batman"
+    }
+  ]
+}
