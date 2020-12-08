@@ -5,8 +5,8 @@
 Dynamically create discovery options from the following sources:
 
 - NRQL
-- Entities
-- Files
+- Entity Search
+- Discovery File
 
 ## Installation
 
@@ -36,7 +36,23 @@ OPTIONS:
 
 ## Building
 
-_TO DO_
+### Setup
+
+```
+make setup
+```
+
+### Linux
+
+```
+make build-linux
+```
+
+### Windows
+
+```
+make build-windows
+```
 
 ## Testing
 
