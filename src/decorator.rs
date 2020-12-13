@@ -5,6 +5,10 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Map, Value};
 extern crate sys_info;
 
+static COLLECTOR_HOSTNAME: &str = "collector.hostname";
+static COLLECTOR_OS_RELEASE: &str = "collector.OperatingSystemRelease";
+static COLLECTOR_OS: &str = "collector.OperatingSystem";
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DecorationsFile {
     defaults: Map<String, Value>,
@@ -111,22 +115,25 @@ pub fn decorate_discovery_items(
 }
 
 fn apply_collector_attributes(mut raw_item: Map<String, Value>, opts: &Opts) -> Map<String, Value> {
-    // collector variable consts
-    let collector_hostname = String::from("collector.hostname");
-    let collector_os_release = String::from("collector.OperatingSystemRelease");
-    let collector_os = String::from("collector.OperatingSystem");
-
     // collector sys variables
     let hostname = sys_info::hostname().unwrap();
     let os_release = sys_info::os_release().unwrap();
     let os_type = sys_info::os_type().unwrap();
 
     // insert into main items
-    raw_item.insert(collector_hostname.to_owned(), json!(hostname));
-    raw_item.insert(collector_os_release.to_owned(), json!(os_release));
-    raw_item.insert(collector_os.to_owned(), json!(os_type));
+    raw_item.insert(COLLECTOR_HOSTNAME.to_string(), json!(hostname));
+    raw_item.insert(COLLECTOR_OS_RELEASE.to_string(), json!(os_release));
+    raw_item.insert(COLLECTOR_OS.to_string(), json!(os_type));
 
-    // build metadata payload
+    // generate and insert meta
+    let meta_value = generate_meta(&raw_item, &opts);
+    raw_item.insert("discoveryMeta".to_string(), meta_value);
+
+    return raw_item;
+}
+
+// generate_meta generates meta based on the configured blacklist or whitelist
+fn generate_meta(raw_item: &Map<String, Value>, opts: &Opts) -> Value {
     let mut meta: Map<String, Value> = Map::new();
 
     let whitelist = &opts.meta_whitelist.to_owned().unwrap_or("".to_string());
@@ -136,9 +143,9 @@ fn apply_collector_attributes(mut raw_item: Map<String, Value>, opts: &Opts) -> 
         let mut metakeys: Vec<&str> = whitelist.split(",").collect();
 
         // apply collector variables to meta by default
-        metakeys.push(&collector_hostname);
-        metakeys.push(&collector_os_release);
-        metakeys.push(&collector_os);
+        metakeys.push(COLLECTOR_HOSTNAME);
+        metakeys.push(COLLECTOR_OS);
+        metakeys.push(COLLECTOR_OS_RELEASE);
 
         for mkey in metakeys {
             match raw_item.get(mkey) {
@@ -171,8 +178,6 @@ fn apply_collector_attributes(mut raw_item: Map<String, Value>, opts: &Opts) -> 
     let meta_str = serde_json::to_string(&meta).unwrap();
     // convert to Value to match type
     let meta_value: Value = serde_json::to_value(meta_str).unwrap();
-    // insert into item
-    raw_item.insert("discoveryMeta".to_string(), meta_value);
 
-    return raw_item;
+    return meta_value;
 }
