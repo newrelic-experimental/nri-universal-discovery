@@ -26,8 +26,8 @@ Create discovery options from the following sources:
 
 ## Documentation
 
-- [Configuration](./configuration.md)
-- [Examples](examples/README.md)
+- [Configuration](/docs/configuration.md)
+- [Examples](/docs/examples/README.md)
 
 ---
 
