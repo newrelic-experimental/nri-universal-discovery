@@ -9,20 +9,20 @@ The `decorations` attribute requires an array of objects with a `matches` and `v
 
 Supply the path to your decorator file with the `NR_DECORATOR_FILE` environment variable or with the `-d` or `-decorator-file` flag.
 
-```
+```json
 {
-  "defaults":{
+  "defaults": {
     "guestUser": "123",
     "guestPass": "abc",
     "dcUser": "administrator@vsphere.local",
-    "dcPass":"N1mbu55!"
+    "dcPass": "N1mbu55!"
   },
   "decorations": [
     {
-      "matches":{
-        "vmName":"\\S+"
+      "matches": {
+        "vmName": "\\S+"
       },
-      "variables":{
+      "variables": {
         "hello": "world",
         "something": "123",
         "guestUser": "kav",
@@ -31,5 +31,4 @@ Supply the path to your decorator file with the `NR_DECORATOR_FILE` environment 
     }
   ]
 }
-
 ```

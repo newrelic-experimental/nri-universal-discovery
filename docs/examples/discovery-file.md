@@ -4,7 +4,7 @@ The `defaults` section will add those defaults into each discovery item if not d
 
 `discovery_items` is an array of flat json objects that will become accessible via the ${discovery.\<value\>} replacement attributes.
 
-```
+```json
 {
   "defaults": {
     "user": "ec2-user",

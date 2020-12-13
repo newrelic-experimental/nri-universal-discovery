@@ -6,7 +6,7 @@ The universal discovery configuration works similarly to [container discovery](h
 
 - View the [usage](#Usage) options and apply into the configuration file similarly to below.
 
-```
+```yaml
 # example filepath/name: /etc/newrelic-infra/integrations.d/my-integration-with-discovery.yml
 ---
 discovery:
