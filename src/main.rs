@@ -25,13 +25,13 @@ pub struct Opts {
     /// New Relic One API Key
     #[clap(short = 'k', env = "NR_API_KEY")]
     api_key: Option<String>,
-    /// Query
+    /// NRQL or Entity Search Query
     #[clap(short = 'q', env = "NR_QUERY")]
     query: Option<String>,
-    /// Query mode NRQL or NerdGraph
+    /// Query mode NRQL or Entity for Entity Search
     #[clap(short = 'm', env = "NR_MODE")]
     mode: Option<String>,
-    /// Serve a custom discovery file
+    /// Path to a manual discovery file
     #[clap(short = 'f', env = "NR_DISCOVERY_FILE")]
     discovery_file: Option<String>,
     /// New Relic Account ID
@@ -41,7 +41,7 @@ pub struct Opts {
         default_value = "https://api.newrelic.com/graphql"
     )]
     nerdgraph_url: String,
-    /// Decorate
+    /// Path to decorator file
     #[clap(short = 'd', env = "NR_DECORATOR_FILE")]
     decorator_file: Option<String>,
     /// Verbose logging

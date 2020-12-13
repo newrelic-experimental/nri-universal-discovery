@@ -1,8 +1,5 @@
 ---
-name: RemoteNetstat
-custom_attributes:
-  vmName: $$VMNAME
-  collectorHostname: $$COLLECTOR_HOSTNAME
+name: Netstat
 apis:
   - name: NetstatConnection
     commands:
