@@ -93,7 +93,7 @@ pub fn decorate_discovery_items(
             }
 
             let item = DiscoveryItem {
-                variables: apply_collector_attributes(raw_item),
+                variables: apply_collector_attributes(raw_item, &opts),
             };
 
             discovery_items.push(item);
@@ -101,7 +101,7 @@ pub fn decorate_discovery_items(
     } else {
         for raw_item in raw_items {
             let item = DiscoveryItem {
-                variables: apply_collector_attributes(raw_item),
+                variables: apply_collector_attributes(raw_item, &opts),
             };
             discovery_items.push(item);
         }
@@ -110,17 +110,69 @@ pub fn decorate_discovery_items(
     return discovery_items;
 }
 
-fn apply_collector_attributes(mut raw_item: Map<String, Value>) -> Map<String, Value> {
+fn apply_collector_attributes(mut raw_item: Map<String, Value>, opts: &Opts) -> Map<String, Value> {
+    // collector variable consts
+    let collector_hostname = String::from("collector.hostname");
+    let collector_os_release = String::from("collector.OperatingSystemRelease");
+    let collector_os = String::from("collector.OperatingSystem");
+
+    // collector sys variables
     let hostname = sys_info::hostname().unwrap();
     let os_release = sys_info::os_release().unwrap();
     let os_type = sys_info::os_type().unwrap();
 
-    raw_item.insert("collectorHostname".to_string(), json!(hostname));
-    raw_item.insert(
-        "collectorOperatingSystemRelease".to_string(),
-        json!(os_release),
-    );
-    raw_item.insert("collectorOperatingSystem".to_string(), json!(os_type));
+    // insert into main items
+    raw_item.insert(collector_hostname.to_owned(), json!(hostname));
+    raw_item.insert(collector_os_release.to_owned(), json!(os_release));
+    raw_item.insert(collector_os.to_owned(), json!(os_type));
+
+    // build metadata payload
+    let mut meta: Map<String, Value> = Map::new();
+
+    let whitelist = &opts.meta_whitelist.to_owned().unwrap_or("".to_string());
+    let blacklist = &opts.meta_blacklist.to_owned().unwrap_or("".to_string());
+
+    if whitelist.as_str() != "" {
+        let mut metakeys: Vec<&str> = whitelist.split(",").collect();
+
+        // apply collector variables to meta by default
+        metakeys.push(&collector_hostname);
+        metakeys.push(&collector_os_release);
+        metakeys.push(&collector_os);
+
+        for mkey in metakeys {
+            match raw_item.get(mkey) {
+                Some(v) => {
+                    meta.insert(mkey.to_string(), v.to_owned());
+                }
+                _ => {}
+            }
+        }
+    } else if blacklist.as_str() != "" {
+        let metakeys: Vec<&str> = blacklist.split(",").collect();
+
+        for rkey in raw_item.keys() {
+            if let Some(_) = metakeys.iter().find(|&s| *s == rkey) {
+            } else {
+                match raw_item.get(rkey) {
+                    Some(v) => {
+                        debug!("adding {} to meta", rkey);
+                        meta.insert(rkey.to_string(), v.to_owned());
+                    }
+                    _ => {
+                        debug!("cannot add {} to meta, not found", rkey);
+                    }
+                }
+            }
+        }
+    }
+
+    // convert to string (to allow discovery to pass correctly)
+    let meta_str = serde_json::to_string(&meta).unwrap();
+    // convert to Value to match type
+    let meta_value: Value = serde_json::to_value(meta_str).unwrap();
+    // insert into item
+    raw_item.insert("discoveryMeta".to_string(), meta_value);
 
     return raw_item;
 }

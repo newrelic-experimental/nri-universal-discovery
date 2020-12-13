@@ -11,33 +11,33 @@ pub struct NerdgraphPayload {
     pub errors: Option<Value>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Data {
     pub actor: Actor,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Actor {
     pub account: Option<Account>,
     #[serde(rename = "entitySearch")]
     pub entity_search: Option<EntitySearch>,
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Account {
     pub nrql: Option<Nrql>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Nrql {
     pub results: Vec<Value>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EntitySearch {
     pub results: Option<Results>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Results {
     pub entities: Vec<Value>,
     #[serde(rename = "nextCursor")]
@@ -99,15 +99,8 @@ async fn recursive_entity_query(
             "unable to deserialize successful nerdgraph response, err: {}",
             nerdgraph_json
         ));
-    nerdgraph_payloads.push(nerdgraph_data);
 
-    let nerdgraph_data_match: NerdgraphPayload = serde_json::from_str(nerdgraph_json.as_str())
-        .expect(&format!(
-            "unable to deserialize successful nerdgraph response, err: {}",
-            nerdgraph_json
-        ));
-
-    match nerdgraph_data_match.errors {
+    match &nerdgraph_data.errors {
         Some(errors) => {
             if errors.as_array().unwrap().len() > 0 {
                 error!("nerdgraph error: {} - query: {}", errors, query);
@@ -117,8 +110,9 @@ async fn recursive_entity_query(
         _ => {}
     }
 
-    match nerdgraph_data_match
+    match nerdgraph_data
         .data
+        .clone()
         .unwrap()
         .actor
         .entity_search
@@ -128,10 +122,14 @@ async fn recursive_entity_query(
         .next_cursor
     {
         Some(cursor) => {
+            nerdgraph_payloads.push(nerdgraph_data);
             return recursive_entity_query(opts, cursor, nerdgraph_payloads).await;
         }
-        _ => return nerdgraph_payloads,
-    }
+        _ => {
+            nerdgraph_payloads.push(nerdgraph_data);
+            return nerdgraph_payloads;
+        }
+    };
 }
 
 fn build_search_query(query: &str, cursor: String) -> String {

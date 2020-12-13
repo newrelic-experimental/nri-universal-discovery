@@ -17,10 +17,9 @@ discovery:
 integrations:
   - name: nri-flex
     env:
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/remote-netstat.yml
-      COLLECTOR_HOSTNAME: ${discovery.collectorHostname}
-      VMNAME: ${discovery.vmName}
-      REMOTE_CMD: "set +H && \
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml
+      FLEX_META: ${discovery.flexMeta}
+      FLEX_CMD_PREPEND: "set +H && \
         govc guest.run -k \
         -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \
         -dc \"${discovery.dcName}\" \

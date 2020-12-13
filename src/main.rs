@@ -47,6 +47,12 @@ pub struct Opts {
     /// Verbose logging
     #[clap(short, env = "VERBOSE")]
     verbose: bool,
+    /// Comma separated whitelist of variables to include in meta (cannot be used with blacklist)
+    #[clap(short = 'w', env = "NR_META_WHITELIST")]
+    meta_whitelist: Option<String>,
+    /// Comma separated blacklist of variables to exclude from meta (cannot be used with whitelist))
+    #[clap(short = 'b', env = "NR_META_BLACKLIST")]
+    meta_blacklist: Option<String>,
 }
 
 #[tokio::main]
