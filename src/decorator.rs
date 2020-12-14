@@ -6,8 +6,15 @@ use serde_json::{json, Map, Value};
 extern crate sys_info;
 
 static COLLECTOR_HOSTNAME: &str = "collector.hostname";
-static COLLECTOR_OS_RELEASE: &str = "collector.OperatingSystemRelease";
-static COLLECTOR_OS: &str = "collector.OperatingSystem";
+static COLLECTOR_OS_RELEASE: &str = "collector.operatingSystemRelease";
+static COLLECTOR_OS: &str = "collector.operatingSystem";
+static COLLECTOR_VERSION: &str = "collector.version";
+
+macro_rules! crate_version {
+    () => {
+        env!("CARGO_PKG_VERSION")
+    };
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DecorationsFile {
@@ -119,11 +126,13 @@ fn apply_collector_attributes(mut raw_item: Map<String, Value>, opts: &Opts) -> 
     let hostname = sys_info::hostname().unwrap();
     let os_release = sys_info::os_release().unwrap();
     let os_type = sys_info::os_type().unwrap();
+    let version = crate_version!();
 
     // insert into main items
     raw_item.insert(COLLECTOR_HOSTNAME.to_string(), json!(hostname));
     raw_item.insert(COLLECTOR_OS_RELEASE.to_string(), json!(os_release));
     raw_item.insert(COLLECTOR_OS.to_string(), json!(os_type));
+    raw_item.insert(COLLECTOR_VERSION.to_string(), json!(version));
 
     // generate and insert meta
     let meta_value = generate_meta(&raw_item, &opts);
@@ -146,6 +155,7 @@ fn generate_meta(raw_item: &Map<String, Value>, opts: &Opts) -> Value {
         metakeys.push(COLLECTOR_HOSTNAME);
         metakeys.push(COLLECTOR_OS);
         metakeys.push(COLLECTOR_OS_RELEASE);
+        metakeys.push(COLLECTOR_VERSION);
 
         for mkey in metakeys {
             match raw_item.get(mkey) {
