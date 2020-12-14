@@ -16,7 +16,7 @@ macro_rules! crate_version {
     };
 }
 
-#[derive(Clap)]
+#[derive(Clap, Debug)]
 #[clap(version= crate_version!(), author = "Kavashen Pather")]
 pub struct Opts {
     /// New Relic Account ID

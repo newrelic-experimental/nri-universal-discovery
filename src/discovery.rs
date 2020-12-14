@@ -77,3 +77,31 @@ fn determine_mode(opts: Opts) -> (Opts, String) {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_determine_mode() {
+        let opts: Opts = Opts {
+            mode: Some("nrql".to_string()),
+            account_id: Some("abc".to_string()),
+            api_key: Some("abc".to_string()),
+            query: Some("abc".to_string()),
+            meta_blacklist: Some("abc".to_string()),
+            meta_whitelist: Some("abc".to_string()),
+            verbose: true,
+            nerdgraph_url: ("abc".to_string()),
+            decorator_file: Some("abc".to_string()),
+            discovery_file: Some("abc".to_string()),
+        };
+
+        let (mut opts, mode) = determine_mode(opts);
+        assert_eq!(mode, "nrql");
+
+        opts.mode = Some("entity".to_string());
+        let (_opts, mode) = determine_mode(opts);
+        assert_eq!(mode, "entity");
+    }
+}

@@ -29,3 +29,9 @@ build-linux:
 		cargo build --release --target=x86_64-unknown-linux-musl
 
 build-all: build-linux build-windows
+
+test:
+		@echo "===================================================================="
+		@echo "Testing..."
+		@echo "===================================================================="
+		cargo test

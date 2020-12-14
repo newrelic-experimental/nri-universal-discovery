@@ -56,7 +56,9 @@ make build-windows
 
 ## Testing
 
-## _TO DO_
+```
+make test
+```
 
 ---
 

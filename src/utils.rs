@@ -10,3 +10,13 @@ pub fn read_file(file: &String) -> String {
         Ok(result) => result,
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_read_file() {
+        assert_eq!(read_file(&String::from("/test/nothing.json")), "");
+    }
+}
