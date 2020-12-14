@@ -31,7 +31,7 @@ discovery:
         latest(datacenterName) as 'dcName', \
         latest(vmConfigName) as 'vmName', \
         latest(vmHostname) as 'vmHostname' \
-        FROM VSphereVmSample FACET entityName"
+        FROM VSphereVmSample FACET entityName LIMIT MAX"
       NR_DECORATOR_FILE: /path/to/decorator/file.json
     match:
       vmName: /\S+/ # match is required and accepts regex when enclosed between forward slashes eg. /<regex>/
@@ -44,7 +44,7 @@ integrations:
       # build the remote command with govc
       REMOTE_CMD: "set +H && \
         govc guest.run -k \
-        -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \
+        -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \  ### update the vSphere/vCenter/ESXi ip/host address
         -dc \"${discovery.dcName}\" \
         -k -vm \"${discovery.vmName}\" \
         -l \"${discovery.guestUser}:${discovery.guestPass}\""

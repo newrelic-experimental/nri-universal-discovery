@@ -5,6 +5,7 @@ The universal discovery configuration works similarly to [container discovery](h
 ### Configuration File
 
 - View the [usage](#Usage) options and apply into the configuration file similarly to below.
+- Multiple configuration files can be created and placed into the `/etc/newrelic-infra/integrations.d/` directory.
 
 ```yaml
 # example filepath/name: /etc/newrelic-infra/integrations.d/my-integration-with-discovery.yml
