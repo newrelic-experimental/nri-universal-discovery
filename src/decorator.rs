@@ -78,18 +78,16 @@ pub fn decorate_discovery_items(
                         if matches.len() == found_matches {
                             for vars in &decoration.variables {
                                 for var in vars.keys() {
-                                    // do not override existing keys
-                                    if !raw_item.contains_key(var) {
-                                        let decoration_value =
-                                            vars.get(var).unwrap_or(&json!("")).to_owned();
+                                    // decorator values take precedence over existing keys
+                                    let decoration_value =
+                                        vars.get(var).unwrap_or(&json!("")).to_owned();
 
-                                        raw_item.insert(var.to_string(), decoration_value);
-                                    }
+                                    raw_item.insert(var.to_string(), decoration_value);
                                 }
                             }
                         }
 
-                        // apply default attributes
+                        // apply default attributes if the key does not exist
                         for key in decorations_file.defaults.keys() {
                             // do not override existing keys
                             if !raw_item.contains_key(key) {

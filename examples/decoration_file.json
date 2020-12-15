@@ -1,20 +1,35 @@
 {
-  "defaults":{
-    "guestUser": "123",
-    "guestPass": "abc",
+  "defaults": {
+    "guestUser": "kav",
+    "guestPass": "n1mbu5!",
     "dcUser": "administrator@vsphere.local",
-    "dcPass":"N1mbu55!"
+    "dcPass": "N1mbu55!"
   },
   "decorations": [
     {
-      "matches":{
-        "vmName":"ubuntu-new\\S+"
+      "matches": {
+        "vmName": "ubuntu-new\\S+"
       },
-      "variables":{
-        "hello": "world",
+      "variables": {
         "something": "123",
         "guestUser": "kav",
         "guestPass": "n1mbu5!"
+      }
+    },
+    {
+      "matches": {
+        "vmName": "centos\\S+"
+      },
+      "variables": {
+        "guestUser": "root"
+      }
+    },
+    {
+      "matches": {
+        "vmName": "prod\\S+"
+      },
+      "variables": {
+        "guestUser": "root"
       }
     }
   ]
