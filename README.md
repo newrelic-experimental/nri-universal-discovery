@@ -15,16 +15,6 @@ Create discovery options from the following sources:
 
 ---
 
-## Installation
-
-- Download `nri-universal-discovery` from the releases section or compile and place the binary into a directory accessible by the Infrastructure Agent eg.
-
-```
-/var/db/newrelic-infra/nri-universal-discovery
-```
-
----
-
 ## Documentation
 
 ### System Requirements
@@ -37,16 +27,43 @@ Create discovery options from the following sources:
 
 - [Installing Universal Discovery](#Installation)
 - [Universal Discovery configuration options](/docs/configuration.md)
-- [Testing returned discoveries](/docs/faq/testing-discoveries.md)
-- [Examples](examples/README.md)
-  - [vSphere/vCenter Agentless Remote Execution](/docs/examples/vsphere-agentless.md)
-  - [SSH Agentless Remote Execution](/docs/examples/ssh-agentless.md)
-  - [AWS EC2 Agentless Remote Execution](/docs/examples/aws-ec2-agentless.md)
-  - [Discovery File Format](/docs/examples/discovery-file.md)
-  - [Decorator File Format](/docs/examples/decorator-file.md)
-- [Optimizing discovery performance](/docs/faq/optimize.md)
-- [Securing credentials]()
-- [Configure multiple discovery integrations](/docs/faq/multiple-discoveries.md)
+- [Testing returned discoveries](/docs/testing-discoveries.md)
+- Examples
+  - [vSphere/vCenter Agentless Remote Execution](/docs/vsphere-agentless.md)
+  - [SSH Agentless Remote Execution](/docs/ssh-agentless.md)
+  - [AWS EC2 Agentless Remote Execution](/docs/aws-ec2-agentless.md)
+  - [Discovery File Format](/docs/discovery-file.md)
+  - [Decorator File Format](/docs/decorator-file.md)
+  - [Applying Metadata](/docs/metadata.md)
+- [Optimizing discovery performance](/docs/optimize.md)
+- [Securing credentials](/docs/secure-credentials.md)
+- [Configure multiple discovery integrations](/docs/multiple-discoveries.md)
+
+---
+
+## Installation
+
+Download the latest `nri-universal-discovery` package from the [releases section](https://github.com/newrelic-experimental/nri-universal-discovery/releases) and run the installer.
+
+```
+Example commands:
+
+# extract the package
+tar -xvf nri-universal-discovery-<version>.tar.gz
+
+# enter the directory
+cd nri-universal-discovery-<version>
+
+# run the installer
+sudo ./install_linux-x86_64.sh
+
+```
+
+The binary should now be available in the below location:
+
+```
+/var/db/newrelic-infra/nri-universal-discovery
+```
 
 ---
 

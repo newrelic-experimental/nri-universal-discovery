@@ -1,3 +1,5 @@
 /target
 *.dump
-dump.*
+dump*
+*.tar.gz
+*.tar
