@@ -10,14 +10,16 @@ discovery:
         latest(datacenterName) as 'dcName', \
         latest(vmConfigName) as 'vmName', \
         latest(vmHostname) as 'vmHostname' \
-        FROM VSphereVmSample FACET entityName"
+        FROM VSphereVmSample FACET entityName LIMIT MAX"
       NR_DECORATOR_FILE: "/root/decorations.json"
     match:
-      vmName: /ubuntu-new\S+/
+      vmName: /\S+/
 integrations:
   - name: nri-flex
+    interval: 1m
     env:
       CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml
+      ALLOW_ENV_COMMANDS: true
       FLEX_META: ${discovery.flexMeta}
       FLEX_CMD_PREPEND: "set +H && \
         govc guest.run -k \

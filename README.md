@@ -17,7 +17,7 @@ Create discovery options from the following sources:
 
 ## Installation
 
-- Download `nri-universal-discovery` or compile and place the binary into a directory accessible by the Infrastructure Agent eg.
+- Download `nri-universal-discovery` from the releases section or compile and place the binary into a directory accessible by the Infrastructure Agent eg.
 
 ```
 /var/db/newrelic-infra/nri-universal-discovery
@@ -27,8 +27,26 @@ Create discovery options from the following sources:
 
 ## Documentation
 
-- [Configuration](/docs/configuration.md)
-- [Examples](/docs/examples/README.md)
+### System Requirements
+
+- A single Linux VM/Host/Machine to deploy too.
+- New Relic Infrastructure Agent 1.14.1 or above (bundles Flex 1.3.8).
+- Flex 1.3.8 or above.
+
+### Getting started
+
+- [Installing Universal Discovery](#Installation)
+- [Universal Discovery configuration options](/docs/configuration.md)
+- [Testing returned discoveries](/docs/faq/testing-discoveries.md)
+- [Examples](examples/README.md)
+  - [vSphere/vCenter Agentless Remote Execution](/docs/examples/vsphere-agentless.md)
+  - [SSH Agentless Remote Execution](/docs/examples/ssh-agentless.md)
+  - [AWS EC2 Agentless Remote Execution](/docs/examples/aws-ec2-agentless.md)
+  - [Discovery File Format](/docs/examples/discovery-file.md)
+  - [Decorator File Format](/docs/examples/decorator-file.md)
+- [Optimizing discovery performance](/docs/faq/optimize.md)
+- [Securing credentials]()
+- [Configure multiple discovery integrations](/docs/faq/multiple-discoveries.md)
 
 ---
 
@@ -57,6 +75,8 @@ make build-windows
 ## Testing
 
 ```
+cargo test
+or
 make test
 ```
 

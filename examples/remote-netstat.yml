@@ -3,7 +3,7 @@ name: Netstat
 apis:
   - name: NetstatConnection
     commands:
-      - run: $$REMOTE_CMD "netstat -atpe -W --numeric-ports --numeric-hosts" # TCP samples
+      - run: "netstat -atpe -W --numeric-ports --numeric-hosts" # TCP samples
         timeout: 59000
         split: horizontal
         regex_match: true

@@ -37,12 +37,14 @@ discovery:
       vmName: /\S+/ # match is required and accepts regex when enclosed between forward slashes eg. /<regex>/
 integrations:
   - name: nri-flex
+    interval: 1m
     env:
       # path to Flex config
       CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml
+      ALLOW_ENV_COMMANDS: true
       FLEX_META: ${discovery.discoveryMeta}
       # build the remote command with govc
-      REMOTE_CMD: "set +H && \
+      FLEX_CMD_PREPEND: "set +H && \
         govc guest.run -k \
         -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \  ### update the vSphere/vCenter/ESXi ip/host address
         -dc \"${discovery.dcName}\" \

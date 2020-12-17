@@ -37,12 +37,14 @@ discovery:
       ec2Name: /\S+/ # match is required and accepts regex when enclosed between forward slashes eg. /<regex>/
 integrations:
   - name: nri-flex
+    interval: 1m
     env:
       # path to Flex config
       CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml
+      ALLOW_ENV_COMMANDS: true
       FLEX_META: ${discovery.discoveryMeta}
       # build the remote ssh command
-      REMOTE_CMD: "set +H && \
+      FLEX_CMD_PREPEND: "set +H && \
         ssh -oStrictHostKeyChecking=no \
         -i ${discovery.keyName} \
         ec2-user@${discovery.publicIpAddr}" # alternatively switch to privateDnsName if necessary

@@ -22,11 +22,13 @@ discovery:
       name: /\S+/
 integrations:
   - name: nri-flex
+    interval: 1m
     env:
       # path to Flex config
       CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/remote-netstat.yml
+      ALLOW_ENV_COMMANDS: true
       # build remote ssh command
-      REMOTE_CMD: "set +H && \
+      FLEX_CMD_PREPEND: "set +H && \
         ssh -oStrictHostKeyChecking=no \
         -i ${discovery.key} \
         ${discovery.user}@${discovery.host}"
