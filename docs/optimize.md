@@ -41,7 +41,7 @@ integrations:
   - name: nri-flex
     interval: 1m ### <- adjust this value ###
     env:
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat.yml
     --------------- truncated -------------------
 ```
 

@@ -29,12 +29,12 @@ integrations:
   - name: nri-flex
     interval: 1m
     env:
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat.yml
     --------------- truncated -------------------
   - name: nri-flex
     interval: 1m
     env:
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/another.yml
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/another.yml
     --------------- truncated -------------------
 ```
 
@@ -73,6 +73,6 @@ integrations:
   - name: nri-flex
     interval: 1m
     env:
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml # we could use the same or different Flex config
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat.yml # we could use the same or different Flex config
     --------------- truncated -------------------
 ```

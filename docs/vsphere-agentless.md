@@ -43,7 +43,7 @@ integrations:
     interval: 1m
     env:
       # path to Flex config
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat.yml
       ALLOW_ENV_COMMANDS: true
       FLEX_META: ${discovery.discoveryMeta}
       # build the remote command with govc
@@ -78,7 +78,7 @@ integrations:
   - name: nri-flex
     env:
       # path to Flex config
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/configs/netstat.yml
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat.yml
       ALLOW_ENV_COMMANDS: true
       FLEX_META: ${discovery.discoveryMeta}
       # build the remote command with govc

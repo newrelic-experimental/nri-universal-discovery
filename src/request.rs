@@ -1,5 +1,4 @@
 use super::Opts;
-use hyper::{Body, Client, Method, Request};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 extern crate base64;
@@ -186,20 +185,26 @@ async fn fetch_data(opts: &Opts, query: &String) -> String {
     info!("fetching {:?} data", &opts.mode);
     debug!("nerdgraph query: {}", &query);
 
-    let https = hyper_rustls::HttpsConnector::new();
-    let client = Client::builder().build::<_, hyper::Body>(https);
+    let proxy_url = &opts.proxy_url.to_owned().unwrap_or("".to_string());
+    let client = if proxy_url.as_str() != "" {
+        reqwest::Client::builder()
+            .proxy(reqwest::Proxy::all(proxy_url).expect("failed to set proxy"))
+            .build()
+            .expect("failed to build client with proxy")
+    } else {
+        reqwest::Client::new()
+    };
 
-    let req = Request::builder()
-        .method(Method::POST)
-        .uri(&opts.nerdgraph_url)
+    let res = client
+        .post(&opts.nerdgraph_url)
+        .body(query.to_string())
         .header("API-Key", &opts.api_key.to_owned().unwrap())
         .header("content-type", "application/json")
-        .body(Body::from(query.to_string()))
-        .unwrap();
+        .send()
+        .await
+        .expect("nerdgraph request failed");
 
-    let mut resp = client.request(req).await.expect("nerdgraph request failed");
-
-    let body_bytes = hyper::body::to_bytes(resp.body_mut()).await.unwrap();
+    let body_bytes = res.bytes().await.unwrap();
 
     let nerdgraph_json =
         String::from_utf8(body_bytes.to_vec()).expect("unable to convert bytes to string");

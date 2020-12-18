@@ -51,6 +51,7 @@ OPTIONS:
     -m <mode>                  Query mode NRQL or Entity for Entity Search [env: NR_MODE=]
     -u <nerdgraph-url>         New Relic Account ID [env: NR_NERDGRAPH_URL=] [default:
                                https://api.newrelic.com/graphql]
+    -p <proxy-url>             Proxy through the configured URL [env: NR_PROXY_URL=]
     -q <query>                 NRQL or Entity Search Query [env: NR_QUERY=]
     -v <verbose>               Verbose logging [env: VERBOSE=]
 ```

@@ -95,6 +95,7 @@ mod tests {
             nerdgraph_url: ("abc".to_string()),
             decorator_file: Some("abc".to_string()),
             discovery_file: Some("abc".to_string()),
+            proxy_url: Some("abc".to_string()),
         };
 
         let (mut opts, mode) = determine_mode(opts);

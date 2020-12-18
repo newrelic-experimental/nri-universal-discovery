@@ -53,6 +53,9 @@ pub struct Opts {
     /// Comma separated blacklist of variables to exclude from meta (cannot be used with whitelist))
     #[clap(short = 'b', env = "NR_META_BLACKLIST")]
     meta_blacklist: Option<String>,
+    /// Proxy through the configured URL
+    #[clap(short = 'p', env = "NR_PROXY_URL")]
+    proxy_url: Option<String>,
 }
 
 #[tokio::main]
