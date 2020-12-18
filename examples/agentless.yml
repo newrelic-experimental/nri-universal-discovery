@@ -2,7 +2,7 @@
 discovery:
   ttl: 1m
   command:
-    exec: /var/db/newrelic-infra/nri-universal-discovery
+    exec: /root/nri-universal-discovery
     env:
       NR_ACCOUNT_ID: "12345678"
       NR_API_KEY: "NRAK-XXXXXX" # API Key generated previously
@@ -24,7 +24,7 @@ integrations:
     env:
       CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat.yml
       ALLOW_ENV_COMMANDS: true
-      FLEX_META: ${discovery.flexMeta}
+      FLEX_META: ${discovery.discoveryMeta}
       FLEX_CMD_PREPEND: "set +H && \
         govc guest.run -k \
         -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \
