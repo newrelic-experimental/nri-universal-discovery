@@ -20,7 +20,7 @@ Create discovery options from the following sources:
 ### System Requirements
 
 - A single Linux VM/Host/Machine to deploy too.
-- New Relic Infrastructure Agent 1.14.1 or above (bundles Flex 1.3.8).
+- New Relic Infrastructure Agent 1.14.? or above (bundles Flex 1.3.8).
 - Flex 1.3.8 or above.
 
 ### Getting started
@@ -38,6 +38,7 @@ Create discovery options from the following sources:
 - [Optimizing discovery performance](/docs/optimize.md)
 - [Securing credentials](/docs/secure-credentials.md)
 - [Configure multiple discovery integrations](/docs/multiple-discoveries.md)
+- [Manually updating Flex](/docs/flex-update.md)
 
 ---
 
