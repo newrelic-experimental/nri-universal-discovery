@@ -34,4 +34,4 @@ integrations:
         ${discovery.user}@${discovery.host}"
 ```
 
-[Example Netstat Flex Config](../../examples/remote-netstat.yml)
+[Example Netstat Flex Config](/examples/netstat.yml)

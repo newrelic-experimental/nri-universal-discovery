@@ -1,0 +1,33 @@
+---
+discovery:
+  ttl: 1m
+  command:
+    exec: /var/db/newrelic-infra/nri-universal-discovery
+    env:
+      NR_ACCOUNT_ID: "12345678"
+      NR_API_KEY: "NRAK-XXXXXX" # API Key generated previously
+      # Query
+      NR_QUERY: "SELECT \
+        latest(datacenterName) as 'dcName', \
+        latest(vmConfigName) as 'vmName', \
+        latest(vmHostname) as 'vmHostname', \
+        latest(entityGuid) as 'remoteEntityGuid', \
+        latest(entityName) as 'remoteEntityName' \
+        FROM VSphereVmSample FACET entityName,entityGuid LIMIT MAX"
+      NR_DECORATOR_FILE: /path/to/decorator/file.json
+      NR_META_WHITELIST: "remoteEntityName,remoteEntityGuid,vmName,dcName,vmHostname"
+    match:
+      vmName: /\S+/ # match is required and accepts regex when enclosed between forward slashes eg. /<regex>/
+integrations:
+  - name: nri-flex
+    interval: 1m
+    env:
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat.yml
+      ALLOW_ENV_COMMANDS: true
+      FLEX_META: ${discovery.flexMeta}
+      FLEX_CMD_PREPEND: "set +H && \
+        govc guest.run -k \
+        -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \
+        -dc \"${discovery.dcName}\" \
+        -k -vm \"${discovery.vmName}\" \
+        -l \"${discovery.guestUser}:${discovery.guestPass}\""

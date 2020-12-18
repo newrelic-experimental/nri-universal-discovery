@@ -10,7 +10,7 @@ Setting up the AWS connectivity integration will enumerate all available EC2s wi
 Use a decorator file to help apply credentials or any other needed meta. In the example we will use the provided key name tag to build our remote command.
 [Decorator File](./decorator-file.md)
 
-[Example Netstat Flex Config](../../examples/remote-netstat.yml)
+[Example Netstat Flex Config](/examples/netstat.yml)
 
 ### Example with NRQL
 

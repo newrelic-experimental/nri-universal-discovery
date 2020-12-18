@@ -11,7 +11,7 @@ Installing the vSphere integration will enumerate all available VMs and the `gov
 Use a decorator file to help apply credentials or any other needed meta.
 [Decorator File](./decorator-file.md)
 
-[Example Netstat Flex Config](../../examples/remote-netstat.yml)
+[Example Netstat Flex Config](/examples/netstat.yml)
 
 ### Example with NRQL
 
