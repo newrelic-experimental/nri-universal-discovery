@@ -20,7 +20,7 @@ Create discovery options from the following sources:
 ### System Requirements
 
 - A single Linux VM/Host/Machine to deploy too.
-- New Relic Infrastructure Agent 1.14.? or above (bundles Flex 1.3.8).
+- New Relic Infrastructure Agent 1.14.2 or above (bundles Flex 1.3.8).
 - Flex 1.3.8 or above.
 
 ### Getting started

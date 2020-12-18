@@ -1,5 +1,7 @@
 # Manually updating Flex to the latest
 
+If you require a newer versions of Flex that has not yet been updated with the agent bundle you can manually update as per below instructions.
+
 1. Download the latest release from https://github.com/newrelic/nri-flex/releases for your target system.
 2. Extract the package eg.
 
