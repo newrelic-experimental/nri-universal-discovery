@@ -52,7 +52,7 @@ integrations:
         -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \  ### update the vSphere/vCenter/ESXi ip/host address
         -dc \"${discovery.dcName}\" \
         -k -vm \"${discovery.vmName}\" \
-        -l \"${discovery.guestUser}:${discovery.guestPass}\""
+        -l \"${discovery.guestUser}:${discovery.guestPass}\" "
 ```
 
 ### Example with Entity Search
@@ -87,5 +87,5 @@ integrations:
         -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \
         -dc \"${discovery.dcName}\" \
         -k -vm \"${discovery.vmName}\" \
-        -l \"${discovery.guestUser}:${discovery.guestPass}\""
+        -l \"${discovery.guestUser}:${discovery.guestPass}\" "
 ```

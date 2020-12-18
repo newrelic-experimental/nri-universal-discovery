@@ -30,4 +30,4 @@ integrations:
         -u \"https://${discovery.dcUser}:${discovery.dcPass}@192.168.0.210\" \
         -dc \"${discovery.dcName}\" \
         -k -vm \"${discovery.vmName}\" \
-        -l \"${discovery.guestUser}:${discovery.guestPass}\""
+        -l \"${discovery.guestUser}:${discovery.guestPass}\" " #intentional space left at the end to avoid the command being squashed
