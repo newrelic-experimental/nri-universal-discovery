@@ -2,7 +2,7 @@
 discovery:
   ttl: 1m
   command:
-    exec: /root/nri-universal-discovery
+    exec: /var/db/newrelic-infra/nri-universal-discovery
     env:
       NR_ACCOUNT_ID: "12345678"
       NR_API_KEY: "NRAK-XXXXXX" # API Key generated previously

@@ -15,6 +15,7 @@ mkdir -p ${BUILD_DIR}
 cp ./target/${RLS}/release/nri-universal-discovery ${BUILD_DIR}/
 cp ./README.md ${BUILD_DIR}/
 cp -a ./docs ${BUILD_DIR}/
+cp -a ./examples ${BUILD_DIR}/
 
 [ -f "./scripts/install_${OS}.sh" ] && cp ./scripts/install_${OS}.sh ${BUILD_DIR}/
 
