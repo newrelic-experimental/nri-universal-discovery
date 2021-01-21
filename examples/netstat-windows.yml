@@ -1,0 +1,32 @@
+---
+name: NetstatConnectionWindows
+apis:
+  - name: NetstatConnection
+    commands:
+      - run: "netstat -anoq -p tcp" # TCP samples
+        timeout: 59000
+        split: horizontal
+        regex_match: true
+        split_by: \s+(\S+)\s+(\S+):(\d+|\*)\s+(\S+):(\d+|\*)\s+(\w+)\s+(\d+)
+        set_header:
+          - protocol
+          - localAddress
+          - localAddressPort
+          - foreignAddress
+          - foreignAddressPort
+          - state
+          - pid
+  - name: NetstatConnection
+    commands:
+      - run: "netstat -anoq -p udp" # UDP samples
+        timeout: 59000
+        split: horizontal
+        regex_match: true
+        split_by: \s+(\S+)\s+(\S+):(\d+|\*)\s+(\S+):(\d+|\*)\s+(\d+)
+        set_header:
+          - protocol
+          - localAddress
+          - localAddressPort
+          - foreignAddress
+          - foreignAddressPort
+          - pid

@@ -22,6 +22,7 @@ Create discovery options from the following sources:
 - A single Linux VM/Host/Machine to deploy too.
 - New Relic Infrastructure Agent 1.14.2 or above (bundles Flex 1.3.8).
 - Flex 1.3.8 or above.
+- There are no strict requirements on the target remote machines or endpoints to collect from, other then having remote/network access.
 
 ### Getting started
 
@@ -33,6 +34,7 @@ Create discovery options from the following sources:
   - [vSphere/vCenter Agentless Remote Execution](/docs/vsphere-agentless.md)
   - [SSH Agentless Remote Execution](/docs/ssh-agentless.md)
   - [AWS EC2 Agentless Remote Execution](/docs/aws-ec2-agentless.md)
+  - [Windows Remote Execution with winexe](/docs/win-remote-exec-winexe.md)
   - [Discovery File Format](/docs/discovery-file.md)
   - [Decorator File Format](/docs/decorator-file.md)
   - [Applying Metadata](/docs/metadata.md)
