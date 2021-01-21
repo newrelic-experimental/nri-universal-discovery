@@ -17,6 +17,8 @@ Use a decorator file to help apply credentials or any other needed meta.
 
 Enumerate Guest VMs with a NRQL query and then build the relevant `govc` remote command using the ${discovery.\<value\>} replacement variables.
 
+Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+
 ```yaml
 ---
 discovery:
@@ -58,6 +60,8 @@ integrations:
 ### Example with Entity Search
 
 Enumerate Guest VMs with a Entity Search Query and then build the relevant `govc` remote command using the ${discovery.\<value\>} replacement variables.
+
+Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
 
 ```yaml
 ---

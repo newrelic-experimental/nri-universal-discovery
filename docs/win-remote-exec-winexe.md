@@ -70,6 +70,8 @@ windows-discoveries.json
 }
 ```
 
+Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+
 ```yaml
 ---
 discovery:

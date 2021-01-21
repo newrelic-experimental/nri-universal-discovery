@@ -10,6 +10,8 @@
 Use a discovery file and then build the relevant `ssh` remote command using the ${discovery.\<value\>} replacement variables.
 [Discovery File Example](./discovery-file.md)
 
+Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+
 ```yaml
 ---
 discovery:

@@ -16,6 +16,8 @@ Use a decorator file to help apply credentials or any other needed meta. In the 
 
 Enumerate EC2s with a NRQL query and then build the relevant `ssh` remote command using the ${discovery.\<value\>} replacement variables.
 
+Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+
 ```yaml
 ---
 discovery:

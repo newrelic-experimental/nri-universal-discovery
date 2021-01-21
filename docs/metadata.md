@@ -10,6 +10,8 @@ The list is defined by setting comma separated attributes, and then by using the
 
 The below example uses a whitelist and only includes several attributes.
 
+Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+
 ```yaml
 ---
 discovery:
