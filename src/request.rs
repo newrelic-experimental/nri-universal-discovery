@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 extern crate base64;
 use async_recursion::async_recursion;
+use reqwest::header::USER_AGENT;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NerdgraphPayload {
@@ -41,6 +42,12 @@ pub struct Results {
     pub entities: Vec<Value>,
     #[serde(rename = "nextCursor")]
     pub next_cursor: Option<String>,
+}
+
+macro_rules! crate_version {
+    () => {
+        env!("CARGO_PKG_VERSION")
+    };
 }
 
 pub async fn nrql(opts: &Opts) -> Vec<NerdgraphPayload> {
@@ -200,6 +207,10 @@ async fn fetch_data(opts: &Opts, query: &String) -> String {
         .body(query.to_string())
         .header("API-Key", &opts.api_key.to_owned().unwrap())
         .header("content-type", "application/json")
+        .header(
+            USER_AGENT,
+            format!("nri-universal-discovery/{}", crate_version!()),
+        )
         .send()
         .await
         .expect("nerdgraph request failed");
