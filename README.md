@@ -42,6 +42,7 @@ Create discovery options from the following sources:
 - [Securing credentials](/docs/secure-credentials.md)
 - [Configure multiple discovery integrations](/docs/multiple-discoveries.md)
 - [Manually updating Flex](/docs/flex-update.md)
+- [Troubleshooting](/docs/troubleshooting.md)
 
 ---
 

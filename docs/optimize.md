@@ -51,6 +51,8 @@ Modify the `/etc/newrelic-infra.yml` configuration file.
 
 ### Event Queue Depth
 
+If you receive the following error eg. `Could not queue event: Event is larger than the maximum event post size` it is suggested to increase the below value.
+
 ```
 Two queues are used to send the events to metrics digest: (event -> eventQueue -> batch -> batchQueue -> HTTP post).
 
