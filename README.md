@@ -33,7 +33,8 @@ Create discovery options from the following sources:
   - Tip: When defining a remote command with `FLEX_CMD_PREPEND` place a space at the very end so that the command is not squashed next to any following parameter or subsequent command, [view example](/examples/agentless.yml).
   - [vSphere/vCenter Agentless Remote Execution](/docs/vsphere-agentless.md)
   - [SSH Agentless Remote Execution](/docs/ssh-agentless.md)
-  - [AWS EC2 Agentless Remote Execution](/docs/aws-ec2-agentless.md)
+    - [Agentless EBPF](/docs/ssh-agentless-ebpf.md)
+    - [AWS EC2 Agentless Remote Execution](/docs/aws-ec2-agentless.md)
   - [Windows Remote Execution with winexe](/docs/win-remote-exec-winexe.md)
   - [Discovery File Format](/docs/discovery-file.md)
   - [Decorator File Format](/docs/decorator-file.md)
