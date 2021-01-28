@@ -39,6 +39,7 @@ Create discovery options from the following sources:
     - [AWS EC2 Agentless Remote Execution](/docs/aws-ec2-agentless.md)
   - [Windows Remote Execution with winexe](/docs/win-remote-exec-winexe.md)
     - [Agentless Typeperf Metrics](/docs/win-remote-exec-typeperf.md)
+    - [Agentless WMI/WMIC/GWMI Metrics](/docs/win-remote-exec-wmi.md)
   - [Discovery File Format](/docs/discovery-file.md)
   - [Decorator File Format](/docs/decorator-file.md)
   - [Applying Metadata](/docs/metadata.md)
