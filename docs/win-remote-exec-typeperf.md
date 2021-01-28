@@ -1,4 +1,4 @@
-# Windows Remote Execution with <b>winexe</b>
+# Windows Remote Execution to collect typeperf metrics w/<b>winexe</b>
 
 ## About
 
@@ -51,7 +51,7 @@ winexe -d 1 -U myUser%myPass! //192.168.0.243 ipconfig
 
 ## Example with Discovery File
 
-[Example Netstat Flex Config](/examples/netstat-windows.yml)
+[Example Typeperf Flex Config](/examples/typeperf-windows.yml)
 
 windows-discoveries.json
 
@@ -59,7 +59,7 @@ windows-discoveries.json
 {
   "defaults": {
     "user": "kav",
-    "pass": "p@ass!"
+    "pass": "n1mbu5!"
   },
   "discovery_items": [
     {
@@ -73,6 +73,7 @@ windows-discoveries.json
 Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
 
 ```yaml
+---
 ---
 discovery:
   ttl: 1m
@@ -88,12 +89,10 @@ integrations:
     interval: 1m
     env:
       # path to Flex config
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat-windows.yml
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/windows-typeperf-metrics.yml
       ALLOW_ENV_COMMANDS: true
       FLEX_META: ${discovery.discoveryMeta}
       # build the remote command with winexe
-      # if you are using a domain user update the command to the following format instead
-      # eg. winexe -U [Domain/]User%Password //host command
       FLEX_CMD_PREPEND: "set +H && /bin/winexe -U ${discovery.user}%${discovery.pass} //${discovery.ip} "
       FLEX_CMD_WRAP: true
       STDIN_PIPE: true

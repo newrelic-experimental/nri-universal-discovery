@@ -1,9 +1,9 @@
 {
   "defaults": {
     "guestUser": "kav",
-    "guestPass": "n1mbu5!",
+    "guestPass": "p@ss!",
     "dcUser": "administrator@vsphere.local",
-    "dcPass": "N1mbu55!"
+    "dcPass": "p@ss!!"
   },
   "decorations": [
     {
@@ -13,7 +13,7 @@
       "variables": {
         "something": "123",
         "guestUser": "kav",
-        "guestPass": "n1mbu5!"
+        "guestPass": "p@ss!"
       }
     },
     {

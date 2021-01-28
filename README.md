@@ -29,13 +29,16 @@ Create discovery options from the following sources:
 - [Installing Universal Discovery](#Installation)
 - [Universal Discovery configuration options](/docs/configuration.md)
 - [Testing returned discoveries](/docs/testing-discoveries.md)
+- Notes:
+  - When using Flex and defining a remote command with `FLEX_CMD_PREPEND` place a space at the very end so that the command is not squashed next to any following parameter or subsequent command, [view example](/examples/agentless.yml).
+  - With a Flex config, you do not need to supply the entire integrations config structure it should appear like this [example](/examples/netstat.yml).
 - Examples
-  - Tip: When defining a remote command with `FLEX_CMD_PREPEND` place a space at the very end so that the command is not squashed next to any following parameter or subsequent command, [view example](/examples/agentless.yml).
   - [vSphere/vCenter Agentless Remote Execution](/docs/vsphere-agentless.md)
   - [SSH Agentless Remote Execution](/docs/ssh-agentless.md)
     - [Agentless EBPF](/docs/ssh-agentless-ebpf.md)
     - [AWS EC2 Agentless Remote Execution](/docs/aws-ec2-agentless.md)
   - [Windows Remote Execution with winexe](/docs/win-remote-exec-winexe.md)
+    - [Agentless Typeperf Metrics](/docs/win-remote-exec-typeperf.md)
   - [Discovery File Format](/docs/discovery-file.md)
   - [Decorator File Format](/docs/decorator-file.md)
   - [Applying Metadata](/docs/metadata.md)

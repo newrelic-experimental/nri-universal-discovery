@@ -15,7 +15,7 @@ Supply the path to your decorator file with the `NR_DECORATOR_FILE` environment 
     "guestUser": "123",
     "guestPass": "abc",
     "dcUser": "administrator@vsphere.local",
-    "dcPass": "N1mbu55!"
+    "dcPass": "p@ss!!"
   },
   "decorations": [
     {
@@ -26,7 +26,7 @@ Supply the path to your decorator file with the `NR_DECORATOR_FILE` environment 
         "hello": "world",
         "something": "123",
         "guestUser": "kav",
-        "guestPass": "n1mbu5!"
+        "guestPass": "p@ss!"
       }
     }
   ]
