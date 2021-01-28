@@ -1,4 +1,4 @@
-# Windows Remote Execution to collect typeperf metrics w/<b>winexe</b>
+# Windows Remote Execution to collect WMI/WMIC metrics w/<b>winexe</b>
 
 ## About
 
@@ -68,6 +68,8 @@ windows-discoveries.json
 }
 ```
 
+### WMIC Example
+
 Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
 
 ```yaml
@@ -87,7 +89,7 @@ integrations:
     interval: 1m
     env:
       # path to Flex config
-      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/windows-typeperf-metrics.yml
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/wmic-windows.yml
       ALLOW_ENV_COMMANDS: true
       FLEX_META: ${discovery.discoveryMeta}
       # build the remote command with winexe
@@ -96,30 +98,85 @@ integrations:
       STDIN_PIPE: true
 ```
 
-[windows-typeperf-metrics.yml](/examples/windows-typeperf-metrics.yml)
+[windows-wmic-metrics.yml](/examples/windows-wmic-metrics.yml)
 Configuration location: `/etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/<config name>.yml`
 
 ```yaml
-name: WindowsTypePerfMetrics
+name: WindowsWmicMetrics
+custom_attributes:
+  operatingSystem: windows
+apis:
+  - name: WmicSystem
+    commands:
+      - run: wmic cpu get loadpercentage,numberofcores,currentclockspeed,socketdesignation /format:csv
+        split: horizontal
+        regex_match: true
+        row_start: 2
+        # the below regex works on linux | does not work on mac
+        split_by: (\S+),(\S+),(\S+),(\S+),(\S+\s\S+)
+        set_header:
+          - node
+          - currentClockSpeed
+          - loadPercentage
+          - cores
+          - socketDesignation
+```
+
+### WMI GetObject & gwmi Example
+
+Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+
+```yaml
+---
+---
+discovery:
+  ttl: 1m
+  command:
+    exec: /var/db/newrelic-infra/nri-universal-discovery # path to discovery binary
+    env:
+      NR_DISCOVERY_FILE: /etc/newrelic-infra/integrations.d/windows-discovery-file.json
+      NR_META_WHITELIST: "ip,team"
+    match:
+      ip: /\S+/ # match is required and accepts regex when enclosed between forward slashes eg. /<regex>/
+integrations:
+  - name: nri-flex
+    interval: 1m
+    env:
+      # path to Flex config
+      CONFIG_FILE: /etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/windows-wmiobj-metrics.yml
+      ALLOW_ENV_COMMANDS: true
+      FLEX_META: ${discovery.discoveryMeta}
+      # build the remote command with winexe
+      FLEX_CMD_PREPEND: "set +H && /bin/winexe -U ${discovery.user}%${discovery.pass} //${discovery.ip} "
+      FLEX_CMD_WRAP: "'" # wrap with single quotes to simplify escaping the commands in the sub Flex config
+      STDIN_PIPE: true
+```
+
+[windows-wmiobj-metrics.yml](/examples/windows-wmiobj-metrics.yml)
+Configuration location: `/etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/<config name>.yml`
+
+```yaml
+name: WindowsWmiMetrics
 custom_attributes:
   operatingSystem: windows
 #  Other available counters https://github.com/craignicholson/typeperf/blob/master/counters.txt
 apis:
-  - name: System
+  - name: Cpu
     commands:
-      # intentionally accessing powershell like this rather then setting via shell so this can be used as a remote integration automatically
-      - run: powershell /c typeperf -sc 1 '\Processor(_total)\% Processor Time' '\Memory\Committed Bytes' '\Memory\Available Bytes' '\LogicalDisk(_total)\% Free Space' '\LogicalDisk(_total)\Free Megabytes' '\Network Interface(*)\Bytes Received/sec' '\Network Interface(*)\Bytes Sent/sec'
-        split_output: Processor
+      - run: powershell /c Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average
+        split_output: Average
         regex_matches:
-          - expression: .+,\"(\d+.\d+)\",\"(\d+.\d+)\",\"(\d+.\d+)\",\"(\d+.\d+)\",\"(\d+.\d+)\",\"(\d+.\d+)\",\"(\d+.\d+)\"
+          - expression: (\S+)
             keys:
-              [
-                cpuPercent,
-                memoryCommittedBytes,
-                memoryAvailableBytes,
-                logicalDiskFreeSpacePercent,
-                logicalDiskFreeMegabytes,
-                networkInterfaceBytesRecievedPerSec,
-                networkInterfaceBytesSentsPerSec,
-              ]
+              - cpuPercent
+    merge: WmiSystemSample
+  - name: Memory
+    commands:
+      - run: powershell gwmi -Class win32_operatingsystem | Select-Object @{Name = \"MemoryUsage\"; Expression = { \"{0:N2}\" -f ((($_.TotalVisibleMemorySize - $_.FreePhysicalMemory)*100)/ $_.TotalVisibleMemorySize) }}
+        split_output: Memory
+        regex_matches:
+          - expression: (\S+)
+            keys:
+              - memoryPercent
+    merge: WmiSystemSample
 ```

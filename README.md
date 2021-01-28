@@ -42,6 +42,7 @@ Create discovery options from the following sources:
   - [Discovery File Format](/docs/discovery-file.md)
   - [Decorator File Format](/docs/decorator-file.md)
   - [Applying Metadata](/docs/metadata.md)
+- [Defining multiple integrations for a single discovery](/docs/1-discovery-many-integrations.md)
 - [Optimizing discovery performance](/docs/optimize.md)
 - [Securing credentials](/docs/secure-credentials.md)
 - [Configure multiple discovery integrations](/docs/multiple-discoveries.md)

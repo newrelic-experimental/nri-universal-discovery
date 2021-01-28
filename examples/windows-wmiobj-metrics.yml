@@ -1,0 +1,23 @@
+name: WindowsWmiMetrics
+custom_attributes:
+  operatingSystem: windows
+#  Other available counters https://github.com/craignicholson/typeperf/blob/master/counters.txt
+apis:
+  - name: Cpu
+    commands:
+      - run: powershell /c Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average
+        split_output: Average
+        regex_matches:
+          - expression: (\S+)
+            keys:
+              - cpuPercent
+    merge: WmiSystemSample
+  - name: Memory
+    commands:
+      - run: powershell gwmi -Class win32_operatingsystem | Select-Object @{Name = \"MemoryUsage\"; Expression = { \"{0:N2}\" -f ((($_.TotalVisibleMemorySize - $_.FreePhysicalMemory)*100)/ $_.TotalVisibleMemorySize) }}
+        split_output: Memory
+        regex_matches:
+          - expression: (\S+)
+            keys:
+              - memoryPercent
+    merge: WmiSystemSample

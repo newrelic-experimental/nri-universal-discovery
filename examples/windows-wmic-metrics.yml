@@ -1,0 +1,18 @@
+name: WindowsWmicMetrics
+custom_attributes:
+  operatingSystem: windows
+apis:
+  - name: WmicSystem
+    commands:
+      - run: wmic cpu get loadpercentage,numberofcores,currentclockspeed,socketdesignation /format:csv
+        split: horizontal
+        regex_match: true
+        row_start: 2
+        # the below regex works on linux | does not work on mac
+        split_by: (\S+),(\S+),(\S+),(\S+),(\S+\s\S+)
+        set_header:
+          - node
+          - currentClockSpeed
+          - loadPercentage
+          - cores
+          - socketDesignation
