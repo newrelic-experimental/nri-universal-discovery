@@ -37,7 +37,7 @@ integrations:
       FLEX_CMD_PREPEND: "set +H && echo ${discovery.pass} | ssh -t ${discovery.user}@${discovery.host} " # ensure space is left at the end of the command
 ```
 
-[Example Netstat Flex Config](/examples/ebpf-tcplife.yml)
+[Example EBPF tcplife Flex Config](/examples/ebpf-tcplife.yml)
 
 ### Example Discovery File Contents
 
