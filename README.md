@@ -1,6 +1,6 @@
 [![New Relic Experimental header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Experimental.png)](https://opensource.newrelic.com/oss-category/#new-relic-experimental)
 
-# nri-universal-discovery
+# New Relic integration - Universal Discovery (nri-universal-discovery)
 
 Universal Discovery allows you to dynamically or manually define discovery items for Infrastructure Integrations.
 This discovery mechanism is particularly useful for agentless instrumentation and data collection, view the [documentation](#documentation) for further information.
