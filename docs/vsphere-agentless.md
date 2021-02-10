@@ -11,14 +11,17 @@ Installing the vSphere integration will enumerate all available VMs and the `gov
 Use a decorator file to help apply credentials or any other needed meta.
 [Decorator File](./decorator-file.md)
 
-### Example with NRQL (targeting linux guests)
+### Example with NRQL (targeting linux guests running)
 
 Enumerate Guest VMs with a NRQL query and then build the relevant `govc` remote command using the ${discovery.\<value\>} replacement variables.
 
 [Example Linux Netstat Flex Config](/examples/netstat.yml)
+
 Configuration location: `/etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/netstat.yml`
 
 Discovery Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+
+Note the NRQL WHERE clause targets linux.
 
 ```yaml
 ---
@@ -63,9 +66,11 @@ integrations:
 Enumerate Guest VMs with a NRQL query and then build the relevant `govc` remote command using the ${discovery.\<value\>} replacement variables.
 
 [Example Windows Netstat Flex Config](/examples/windows-netstat.yml)
+
 Configuration location: `/etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/windows-netstat.yml`
 
 Discovery Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+Note the NRQL WHERE clause targets windows.
 
 ```yaml
 ---
