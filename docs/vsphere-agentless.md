@@ -69,7 +69,10 @@ Enumerate Guest VMs with a NRQL query and then build the relevant `govc` remote 
 
 Configuration location: `/etc/newrelic-infra/integrations.d/universal-discovery-sub-configs/windows-netstat.yml`
 
+The netstat output from Windows is different
+
 Discovery Configuration location: `/etc/newrelic-infra/integrations.d/<config name>.yml`
+
 Note the NRQL WHERE clause targets windows.
 
 ```yaml
