@@ -1,0 +1,9 @@
+---
+integrations:
+  - name: nri-flex
+    config:
+      name: WindowsServices
+      apis:
+        - name: WindowsService
+          commands:
+            - run:  'powershell -command "Get-Service | Select-Object -Property @{ Name = \"ServiceName\"; Expression = { $_.Name } }, @{ Name = \"ServiceDisplayName\"; Expression = { $_.DisplayName } }, @{ Name = \"ServiceStatus\"; Expression = { switch ( $_.Status | ConvertTo-Json ) { 1 { \"Stopped\" } 2 { \"StartPending\" } 3 { \"StopPending\" } 4 { \"Running\" } 5 { \"ContinuePending\" } 6 { \"PausePending\" } 7 { \"Paused\" } } } } | ConvertTo-Json"'

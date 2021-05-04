@@ -1,0 +1,60 @@
+---
+integrations:
+  - name: nri-flex
+    # interval: 30s
+    config:
+      name: WindowsDiskInfo
+      apis:
+        - name: WindowsDisk
+          commands:
+            - run: 'powershell -command "Get-CimInstance -ClassName Win32_PerfFormattedData_PerfDisk_LogicalDisk"'
+              split_output: Caption
+              regex_matches:
+                - expression: Name\s+:\s(.+)
+                  keys: [name]
+                - expression: AvgDiskBytesPerRead\s+:\s(.+)
+                  keys: [AvgDiskBytesPerRead]
+                - expression: AvgDiskBytesPerTransfer\s+:\s(.+)
+                  keys: [AvgDiskBytesPerTransfer]
+                - expression: AvgDiskBytesPerWrite\s+:\s(.+)
+                  keys: [AvgDiskBytesPerWrite]
+                - expression: AvgDiskQueueLength\s+:\s(.+)
+                  keys: [AvgDiskQueueLength]
+                - expression: AvgDiskReadQueueLength\s+:\s(.+)
+                  keys: [AvgDiskReadQueueLength]
+                - expression: AvgDisksecPerRead\s+:\s(.+)
+                  keys: [AvgDisksecPerRead]
+                - expression: AvgDisksecPerTransfer\s+:\s(.+)
+                  keys: [AvgDisksecPerTransfer]
+                - expression: AvgDisksecPerWrite\s+:\s(.+)
+                  keys: [AvgDisksecPerWrite]
+                - expression: AvgDiskWriteQueueLength\s+:\s(.+)
+                  keys: [AvgDiskWriteQueueLength]
+                - expression: CurrentDiskQueueLength\s+:\s(.+)
+                  keys: [CurrentDiskQueueLength]
+                - expression: DiskBytesPersec\s+:\s(.+)
+                  keys: [DiskBytesPersec]
+                - expression: DiskReadBytesPersec\s+:\s(.+)
+                  keys: [DiskReadBytesPersec]
+                - expression: DiskReadsPersec\s+:\s(.+)
+                  keys: [DiskReadsPersec]
+                - expression: DiskTransfersPersec\s+:\s(.+)
+                  keys: [DiskTransfersPersec]
+                - expression: DiskWriteBytesPersec\s+:\s(.+)
+                  keys: [DiskWriteBytesPersec]
+                - expression: DiskWritesPersec\s+:\s(.+)
+                  keys: [DiskWritesPersec]
+                - expression: FreeMegabytes\s+:\s(.+)
+                  keys: [FreeMegabytes]
+                - expression: PercentDiskReadTime\s+:\s(.+)
+                  keys: [PercentDiskReadTime]
+                - expression: PercentDiskTime\s+:\s(.+)
+                  keys: [PercentDiskTime]
+                - expression: PercentDiskWriteTime\s+:\s(.+)
+                  keys: [PercentDiskWriteTime]
+                - expression: PercentFreeSpace\s+:\s(.+)
+                  keys: [PercentFreeSpace]
+                - expression: PercentIdleTime\s+:\s(.+)
+                  keys: [PercentIdleTime]
+                - expression: SplitIOPerSec\s+:\s(.+)
+                  keys: [SplitIOPerSec]
