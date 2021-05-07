@@ -10,51 +10,51 @@ integrations:
             - run: 'powershell -command "Get-CimInstance -ClassName Win32_PerfFormattedData_PerfDisk_LogicalDisk"'
               split_output: Caption
               regex_matches:
-                - expression: Name\s+:\s(.+)
+                - expression: Name\s+:\s(.+)[\r\n|\r|\n]
                   keys: [name]
-                - expression: AvgDiskBytesPerRead\s+:\s(.+)
+                - expression: AvgDiskBytesPerRead\s+:\s(\d+)
                   keys: [AvgDiskBytesPerRead]
-                - expression: AvgDiskBytesPerTransfer\s+:\s(.+)
+                - expression: AvgDiskBytesPerTransfer\s+:\s(\d+)
                   keys: [AvgDiskBytesPerTransfer]
-                - expression: AvgDiskBytesPerWrite\s+:\s(.+)
+                - expression: AvgDiskBytesPerWrite\s+:\s(\d+)
                   keys: [AvgDiskBytesPerWrite]
-                - expression: AvgDiskQueueLength\s+:\s(.+)
+                - expression: AvgDiskQueueLength\s+:\s(\d+)
                   keys: [AvgDiskQueueLength]
-                - expression: AvgDiskReadQueueLength\s+:\s(.+)
+                - expression: AvgDiskReadQueueLength\s+:\s(\d+)
                   keys: [AvgDiskReadQueueLength]
-                - expression: AvgDisksecPerRead\s+:\s(.+)
+                - expression: AvgDisksecPerRead\s+:\s(\d+)
                   keys: [AvgDisksecPerRead]
-                - expression: AvgDisksecPerTransfer\s+:\s(.+)
+                - expression: AvgDisksecPerTransfer\s+:\s(\d+)
                   keys: [AvgDisksecPerTransfer]
-                - expression: AvgDisksecPerWrite\s+:\s(.+)
+                - expression: AvgDisksecPerWrite\s+:\s(\d+)
                   keys: [AvgDisksecPerWrite]
-                - expression: AvgDiskWriteQueueLength\s+:\s(.+)
+                - expression: AvgDiskWriteQueueLength\s+:\s(\d+)
                   keys: [AvgDiskWriteQueueLength]
-                - expression: CurrentDiskQueueLength\s+:\s(.+)
+                - expression: CurrentDiskQueueLength\s+:\s(\d+)
                   keys: [CurrentDiskQueueLength]
-                - expression: DiskBytesPersec\s+:\s(.+)
+                - expression: DiskBytesPersec\s+:\s(\d+)
                   keys: [DiskBytesPersec]
-                - expression: DiskReadBytesPersec\s+:\s(.+)
+                - expression: DiskReadBytesPersec\s+:\s(\d+)
                   keys: [DiskReadBytesPersec]
-                - expression: DiskReadsPersec\s+:\s(.+)
+                - expression: DiskReadsPersec\s+:\s(\d+)
                   keys: [DiskReadsPersec]
-                - expression: DiskTransfersPersec\s+:\s(.+)
+                - expression: DiskTransfersPersec\s+:\s(\d+)
                   keys: [DiskTransfersPersec]
-                - expression: DiskWriteBytesPersec\s+:\s(.+)
+                - expression: DiskWriteBytesPersec\s+:\s(\d+)
                   keys: [DiskWriteBytesPersec]
-                - expression: DiskWritesPersec\s+:\s(.+)
+                - expression: DiskWritesPersec\s+:\s(\d+)
                   keys: [DiskWritesPersec]
-                - expression: FreeMegabytes\s+:\s(.+)
+                - expression: FreeMegabytes\s+:\s(\d+)
                   keys: [FreeMegabytes]
-                - expression: PercentDiskReadTime\s+:\s(.+)
+                - expression: PercentDiskReadTime\s+:\s(\d+)
                   keys: [PercentDiskReadTime]
-                - expression: PercentDiskTime\s+:\s(.+)
+                - expression: PercentDiskTime\s+:\s(\d+)
                   keys: [PercentDiskTime]
-                - expression: PercentDiskWriteTime\s+:\s(.+)
+                - expression: PercentDiskWriteTime\s+:\s(\d+)
                   keys: [PercentDiskWriteTime]
-                - expression: PercentFreeSpace\s+:\s(.+)
+                - expression: PercentFreeSpace\s+:\s(\d+)
                   keys: [PercentFreeSpace]
-                - expression: PercentIdleTime\s+:\s(.+)
+                - expression: PercentIdleTime\s+:\s(\d+)
                   keys: [PercentIdleTime]
-                - expression: SplitIOPerSec\s+:\s(.+)
+                - expression: SplitIOPerSec\s+:\s(\d+)
                   keys: [SplitIOPerSec]
